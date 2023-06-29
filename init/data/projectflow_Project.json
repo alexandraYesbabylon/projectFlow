@@ -1,0 +1,35 @@
+[
+    {
+        "name": "projectFlow\\Project",
+        "lang": "en",
+        "data": [
+            {
+                "id": 1,
+                "name": "client management",
+                "description": "",
+                "startdate": "2023-06-02",
+                "budget": 2000,
+                "status": "draft",
+                "client_id":"1"                
+            },
+            {
+                "id": 2,
+                "name": "flight reservationst",
+                "description": "",
+                "startdate": "2023-06-02",
+                "budget": 10000,
+                "status": "draft",
+                "client_id":"2"                 
+            },
+            {
+                "id": 3,
+                "name": "inventory management",
+                "description": "",
+                "startdate": "2023-08-02",
+                "budget": 10000,
+                "status": "draft",
+                "client_id":"2"                
+            }
+        ]
+    }
+]

@@ -6,7 +6,6 @@
 */
 
 use equal\orm\Domain;
-use projectFlow\EmployeeProject;
 use projectFlow\Project;
 
 list($params, $providers) = eQual::announce([

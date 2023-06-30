@@ -9,7 +9,7 @@ use equal\orm\Domain;
 use projectFlow\EmployeeProject;
 use projectFlow\Project;
 
-list($params, $providers) = announce([
+list($params, $providers) = eQual::announce([
     'description'   => 'Advanced search for Reports: returns a collection of Reports according to extra paramaters.',
     'extends'       => 'core_model_collect',
     'params'        => [
@@ -35,7 +35,12 @@ list($params, $providers) = announce([
         'budget_max' => [
             'type'              => 'integer',
             'description'       => 'Maximal budget for the project.'
-        ]
+        ],
+        'client_id' => [
+            'type'              => 'many2one',
+            'foreign_object'    => 'projectFlow\Client',
+            'description'       => 'client of project to which the reports relate.'
+        ],
     ],
     'response'      => [
         'content-type'  => 'application/json',
@@ -66,6 +71,10 @@ if(isset($params['budget_min']) && $params['budget_min'] > 0) {
 
 if(isset($params['budget_max']) && $params['budget_max'] > 0) {
     $domain = Domain::conditionAdd($domain, ['budget', '<=', $params['budget_max']]);
+}
+
+if(isset($params['client_id']) && $params['client_id'] > 0) {
+    $domain = Domain::conditionAdd($domain, ['client_id', '=', $params['client_id']]);
 }
 
 //   employee_id : filter on Project related employe

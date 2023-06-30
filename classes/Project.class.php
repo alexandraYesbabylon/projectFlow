@@ -30,11 +30,11 @@ class Project extends Model {
                 'selection'         => ['draft', 'approved','in_progress','cancelled','finished']
             ],
             'client_id' => [
-                'type'           => 'many2one',
-                'foreign_object' => 'projectFlow\Client',
+                'type'              => 'many2one',
+                'foreign_object'    => 'projectFlow\Client',
                 'required'          => true,
             ],
-            // Each project can have employees
+            // Each employee can have projects
             'employee_projects_ids' => [
                 'type'              => 'one2many',
                 'foreign_object'    => 'projectFlow\EmployeeProject',

@@ -41,6 +41,16 @@ list($params, $providers) = eQual::announce([
             'foreign_object'    => 'projectFlow\Client',
             'description'       => 'client of project to which the reports relate.'
         ],
+        'date_from' => [
+            'type'          => 'date',
+            'description'   => "First date of the time interval.",
+            'default'       => strtotime("-10 Years")
+        ],
+        'date_to' => [
+            'type'          => 'date',
+            'description'   => "Last date of the time interval.",
+            'default'       => time()
+        ]
     ],
     'response'      => [
         'content-type'  => 'application/json',
@@ -75,6 +85,14 @@ if(isset($params['budget_max']) && $params['budget_max'] > 0) {
 
 if(isset($params['client_id']) && $params['client_id'] > 0) {
     $domain = Domain::conditionAdd($domain, ['client_id', '=', $params['client_id']]);
+}
+
+if(isset($params['date_from']) && $params['date_from'] > 0) {
+    $domain = Domain::conditionAdd($domain, ['startdate', '>=', $params['date_from']]);
+}
+
+if(isset($params['date_to']) && $params['date_to'] > 0) {
+    $domain = Domain::conditionAdd($domain, ['startdate', '<=', $params['date_to']]);
 }
 
 //   employee_id : filter on Project related employe

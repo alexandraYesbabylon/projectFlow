@@ -10,8 +10,8 @@ class Employee extends Model {
                 'type'              => 'computed',
                 'result_type'       => 'string',
                 'description'       => "Full Name of the employee.",
-                'store'             => true,
-                'function'          => 'calcName'
+                'function'          => 'calcName',
+                'store'             => true
             ],
             'firstname' => [
                 'type'              => 'string',

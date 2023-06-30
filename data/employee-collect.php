@@ -39,7 +39,7 @@ list($context, $orm) = [ $providers['context'], $providers['orm'] ];
 $domain = $params['domain'];
 
 if(isset($params['direction']) && strlen($params['direction']) > 0 ) {
-    $domain = Domain::conditionAdd($domain, ['direction', 'like',$params['direction']]);
+    $domain = Domain::conditionAdd($domain, ['direction', 'like','%'.$params['direction'].'%']);
 }
 
 $params['domain'] = $domain;

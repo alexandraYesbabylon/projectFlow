@@ -2,6 +2,7 @@
     "name": "Employee",
     "description": "All information employees.",
     "domain": [],
+    "controller": "projectFlow_employee-collect",
     "limit": 10,
     "order": "lastname,firstname",
     "operations": {

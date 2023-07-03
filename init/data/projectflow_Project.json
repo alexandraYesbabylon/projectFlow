@@ -6,7 +6,7 @@
             {
                 "id": 1,
                 "name": "client management",
-                "description": "",
+                "description": "Update Client management",
                 "startdate": "2023-06-02",
                 "budget": 2000,
                 "status": "draft",
@@ -14,8 +14,8 @@
             },
             {
                 "id": 2,
-                "name": "flight reservationst",
-                "description": "",
+                "name": "flight reservations",
+                "description": "VIP Flight reservation ",
                 "startdate": "2023-06-02",
                 "budget": 10000,
                 "status": "draft",

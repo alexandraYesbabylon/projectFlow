@@ -9,9 +9,9 @@ class Employee extends Model {
             'name' => [
                 'type'              => 'computed',
                 'result_type'       => 'string',
-                'description'       => "Full Name of the employee.",
-                'function'          => 'calcName',
-                'store'             => true
+                'description'       => "Name of the employee.",
+                'store'             => true,
+                'function'          => 'calcName'
             ],
             'firstname' => [
                 'type'              => 'string',
@@ -56,6 +56,12 @@ class Employee extends Model {
         ];
     }
 
+    /**
+     * Compute the value of the calcName of the employee (concatenate firstname and lastname).
+     *
+     * @param \equal\orm\Collection $self  An instance of a Employee collection.
+     *
+     */
     public static function calcName($self) {
         $result = [];
         $self->read(['firstname', 'lastname']);
@@ -64,5 +70,4 @@ class Employee extends Model {
         }
         return $result;
     }
-
 }

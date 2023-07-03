@@ -23,6 +23,12 @@
             },
             {
                 "type": "field",
+                "value": "name",
+                "label": "name",
+                "width": "10%"
+            },
+            {
+                "type": "field",
                 "value": "firstname",
                 "label": "First name",
                 "width": "10%"

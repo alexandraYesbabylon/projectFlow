@@ -38,6 +38,15 @@
                 "salary": 2000,
                 "email": "paula@email.com",
                 "company_id":1
+            },
+            {
+                "id": 5,
+                "firstname": "Louise",
+                "lastname": "Dubois",
+                "direction": "bd du souvarain",
+                "salary": 3000,
+                "email": "louise@gmail.com",
+                "company_id":2
             }
         ]
     }

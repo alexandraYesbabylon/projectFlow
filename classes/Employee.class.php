@@ -16,12 +16,14 @@ class Employee extends Model {
             'firstname' => [
                 'type'              => 'string',
                 'required'          => true,
-                'description'       => "First Name of the employee."
+                'description'       => "First Name of the employee.",
+                'dependencies'      => ['name']
             ],
             'lastname' => [
                 'type'              => 'string',
                 'required'          => true,
-                'description'       => "Last Name of the employee."
+                'description'       => "Last Name of the employee.",
+                'dependencies'      => ['name']
             ],
             'direction' => [
                 'type'              => 'string',

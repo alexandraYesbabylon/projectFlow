@@ -1,20 +1,20 @@
 {
-    "name": "Settings menu",
+    "name": "Project menu",
     "access": {
-        "groups": ["setting.default.projectFlow"]
+        "groups": ["project.default.projectFlow"]
     },
     "layout": {
         "items":
         [
             {
-                "id": "settings.settings.test",
+                "id": "project.project.test",
                 "label": "ProjectFlow",
                 "description": "",
                 "icon": "menu_book",
                 "type": "parent",
                 "children": [
                     {
-                        "id": "settings.settings.company",
+                        "id": "project.project.company",
                         "type": "entry",
                         "label": "Companies",
                         "description": "",
@@ -24,7 +24,7 @@
                         }
                     },
                     {
-                        "id": "settings.settings.test",
+                        "id": "project.project.employee",
                         "type": "entry",
                         "label": "Employees",
                         "description": "",
@@ -34,7 +34,7 @@
                         }
                     },
                     {
-                        "id": "settings.settings.test",
+                        "id": "project.project.projects",
                         "type": "entry",
                         "label": "Projects",
                         "description": "",
@@ -44,7 +44,7 @@
                         }
                     },
                     {
-                        "id": "settings.settings.test",
+                        "id": "project.project.employeeproject",
                         "type": "entry",
                         "label": "Employees on project",
                         "description": "",
@@ -54,7 +54,7 @@
                         }
                     },
                     {
-                        "id": "settings.settings.test",
+                        "id": "project.project.client",
                         "type": "entry",
                         "label": "Clients",
                         "description": "",

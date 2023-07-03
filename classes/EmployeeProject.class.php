@@ -17,8 +17,8 @@ class EmployeeProject extends Model {
             ],
 
             'hours' => [
-                'type'              => 'float',
-                'required'          => true,
+                'type'           => 'float',
+                'required'       => true,
             ]
 
         ];

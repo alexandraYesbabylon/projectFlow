@@ -40,11 +40,11 @@ class Employee extends Model {
                 'usage'             => 'email',
             ],
             'company_id' => [
-                'type'           => 'many2one',
-                'foreign_object' => 'projectFlow\Company',
+                'type'              => 'many2one',
+                'foreign_object'    => 'projectFlow\Company',
                 'required'          => true,
             ],
-
+            //Each employee works in many projects
             'projects_ids' => [
                 'type'              => 'many2many',
                 'foreign_object'    => 'projectFlow\Project',

@@ -1,58 +1,58 @@
 {
-    "name": "Projects",
-    "description": "All information projects.",
-    "domain": [],
-    "order": "startdate",
-    "controller": "projectFlow_project-collect",
-    "operations": {
-        "total": {
-            "budget": {
-                "id": "operations.total.budget",
-                "label": "Total budget",
-                "operation": "SUM",
-                "prefix": "€"
-            }
-        }
-    },
-    "layout": {
-        "items": [
-            {
-                "type": "field",
-                "value": "id",
-                "width": "15%"
-            },
-            {
-                "type": "field",
-                "value": "name",
-                "width": "15%"
-            },
-            {
-                "type": "field",
-                "value": "description",
-                "width": "15%"
-            },
-            {
-                "type": "field",
-                "value": "startdate",
-                "label": "Start",
-                "width": "15%"
-            },
-            {
-                "type": "field",
-                "value": "budget",
-                "width": "15%"
-            },
-            {
-                "type": "field",
-                "value": "status",
-                "width": "15%"
-            },
-            {
-                "type": "field",
-                "value": "client_id",
-                "label": "Client",
-                "width": "15%"
-            }
-        ]
+  "name": "Projects",
+  "description": "All information projects.",
+  "domain": [],
+  "order": "startdate",
+  "controller": "projectFlow_project-collect",
+  "operations": {
+    "total": {
+      "budget": {
+        "id": "operations.total.budget",
+        "label": "Total budget",
+        "operation": "SUM",
+        "prefix": "€"
+      }
     }
+  },
+  "layout": {
+    "items": [
+      {
+        "type": "field",
+        "value": "id",
+        "width": "15%"
+      },
+      {
+        "type": "field",
+        "value": "name",
+        "width": "15%"
+      },
+      {
+        "type": "field",
+        "value": "description",
+        "width": "15%"
+      },
+      {
+        "type": "field",
+        "value": "startdate",
+        "label": "Start",
+        "width": "15%"
+      },
+      {
+        "type": "field",
+        "value": "budget",
+        "width": "15%"
+      },
+      {
+        "type": "field",
+        "value": "status",
+        "width": "15%"
+      },
+      {
+        "type": "field",
+        "value": "client_id",
+        "label": "Client",
+        "width": "15%"
+      }
+    ]
+  }
 }

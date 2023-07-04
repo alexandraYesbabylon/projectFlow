@@ -67,8 +67,8 @@ class Employee extends Model {
     public static function calcName($self) {
         $result = [];
         $self->read(['firstname', 'lastname']);
-        foreach($self as $id  => $employee) {
-            $result[$id] = $employee['firstname'].' '.$employee['lastname'];
+        foreach ($self as $id  => $employee) {
+            $result[$id] = $employee['firstname'] . ' ' . $employee['lastname'];
         }
         return $result;
     }

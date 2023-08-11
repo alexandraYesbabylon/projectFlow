@@ -59,8 +59,6 @@ class Project extends Model {
             'draft' => [
                 'transitions' => [
                     'approve' => [
-                        'watch'       => ['approved'],
-                        'domain'      => ['approved', '=', true],
                         'description' => 'Update the project status based on the `approved` field.',
                         'help'        => "The `approved` field is set by a dedicated controller that manages project approval requests.",
                         'status'	  => 'approved',
@@ -75,7 +73,6 @@ class Project extends Model {
                         'status'	  => 'cancelled'
                     ],
                     'start' => [
-                        'domain'      => ['approved', '=', true],
                         'description' => 'Update the project status based on the `in_progress` field.',
                         'help'        => "The `in_progress` field is set by a dedicated controller that handles the projec progression process.",
                         'status'	  => 'in_progress',

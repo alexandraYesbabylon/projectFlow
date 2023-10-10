@@ -2,7 +2,7 @@
   "name": "Client",
   "description": "All information clients.",
   "domain": [],
-  "limit": 10,
+  "limit": 25,
   "order": "name",
   "layout": {
     "items": [

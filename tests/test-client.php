@@ -54,8 +54,27 @@ $tests = [
             return ($direction == "New direction test");
         }
     ],
+/* 
+    '004'      => [
+        'description'       => 'Archive client',
+        'return'            => ['boolean'],
+        'test'               => function () {
 
-    '004'      => array(
+            $nameClient = "test archive client" .rand();
+            $client = Client::create([
+                    'name'        => $nameClient ,
+                    'direction'   => "direction test",
+                    'phone'       => 123456789,
+                    'isactive'    => true,
+                ])->update(['deleted'   => true])->first(true);
+
+            $client = Client::id($client['id'])->read(['id','created','deleted','phone','isactive'])->first(true);
+            return ($client['deleted']);
+        },
+        'expected'=>true
+    ],
+ */
+    '005'      => array(
         'description'       => 'Delete client',
         'return'            => ['boolean'],
         'test'              => function () {
@@ -77,5 +96,26 @@ $tests = [
 
         },
         'expected'=>true
-    )
+    ),
+/* 
+    '006'      => array(
+        'description'       => 'Search the project of the client',
+        'return'            => ['integer'],
+        'test'              => function () {
+
+            $client = Client::search(['name' , 'like' , "%". 'Jean Duran'. "%"])->first();
+
+
+            $projects= Client::search(['id', '=', $client['id']])->read(['projects_ids']);
+            print($projects));
+            die();
+            foreach($projects as $project){
+                print_r($project);
+            }
+            
+            return ($result);
+
+        },
+        'expected'=>true
+    ) */
 ];

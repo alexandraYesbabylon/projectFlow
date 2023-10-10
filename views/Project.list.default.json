@@ -2,6 +2,7 @@
   "name": "Projects",
   "description": "All information projects.",
   "domain": [],
+  "limit": 25,
   "order": "startdate",
   "controller": "projectFlow_project-collect",
   "operations": {

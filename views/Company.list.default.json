@@ -2,6 +2,7 @@
   "name": "Companies",
   "description": "All information companies.",
   "domain": [],
+  "limit": 25,
   "order": "creationdate",
   "layout": {
     "items": [

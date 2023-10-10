@@ -2,7 +2,7 @@
   "name": "Employee on project",
   "description": "All informations the employee on project.",
   "domain": [],
-  "limit": 10,
+  "limit": 25,
   "group_by": [
     {
       "field": "employee_id",

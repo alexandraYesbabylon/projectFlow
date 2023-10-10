@@ -12,16 +12,16 @@ $providers = eQual::inject(['context', 'orm', 'auth', 'access']);
 
 $tests = [
 
-    '001'      => array(
+    '301'      => array(
         'description'       =>  'Creating employee',
         'return'            =>  ['string'],
         'test'              =>  function () {
 
             $company = Company::create([
-                'name'        => "Company client",
-                'direction'   => "direction test",
-                'phone'       => 123456789
-            ])->first();
+                    'name'        => "Company client",
+                    'direction'   => "direction test",
+                    'phone'       => 123456789
+                ])->first();
 
             $employee = Employee::create([
                     'firstname'        => "first",

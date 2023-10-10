@@ -10,7 +10,7 @@
       "id": "project",
       "name": "Project",
       "extends": "app",
-      "description": "Applitation project flow",
+      "description": "Application project flow",
       "icon": "ad_units",
       "color": "#3498DB",
       "access": {

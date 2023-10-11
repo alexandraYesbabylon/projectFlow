@@ -7,6 +7,7 @@
 
 use projectFlow\Employee;
 use projectFlow\Company;
+use projectFlow\Project;
 
 $providers = eQual::inject(['context', 'orm', 'auth', 'access']);
 
@@ -38,6 +39,28 @@ $tests = [
         'assert'            =>  function ($name) {
             return ($name == 'first last');
         }
-    )
+    ),
+    /* '302'      => array(
+        'description'       => 'Know the total of the projects by the employee',
+        'return'            => ['integer'],
+        'test'              => function () {
+
+            $employee = Employee::search(["name" , "like" , "%". 'Marie Grand'. "%"])->read(["id", "name", "projects_ids"])->first(true);
+
+            $projects=$employee["projects_ids"];
+
+            $budget=0;
+            foreach($projects as $id => $project) {
+
+                $project= Project::id($project['id'])->read('budget')->first(true);
+                $budget=$budget+$project['budget'];
+
+            }
+
+            return($budget);
+
+        },
+        'expected' => 62000
+    ) */
 
 ];

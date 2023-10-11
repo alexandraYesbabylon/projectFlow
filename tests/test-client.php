@@ -54,7 +54,7 @@ $tests = [
             return ($direction == "New direction test");
         }
     ],
-/* 
+
     '004'      => [
         'description'       => 'Archive client',
         'return'            => ['boolean'],
@@ -73,7 +73,7 @@ $tests = [
         },
         'expected'=>true
     ],
- */
+
     '005'      => array(
         'description'       => 'Delete client',
         'return'            => ['boolean'],
@@ -97,25 +97,19 @@ $tests = [
         },
         'expected'=>true
     ),
-/* 
+
     '006'      => array(
         'description'       => 'Search the project of the client',
         'return'            => ['integer'],
         'test'              => function () {
 
-            $client = Client::search(['name' , 'like' , "%". 'Jean Duran'. "%"])->first();
+            $client = Client::search(["name" , "like" , "%". 'Jean Duran'. "%"])->read(["id", "name"])->first(true);
 
+            $projects= Client::search(['id', '=', $client['id']])->read(['projects_ids'])->first(true);
 
-            $projects= Client::search(['id', '=', $client['id']])->read(['projects_ids']);
-            print($projects));
-            die();
-            foreach($projects as $project){
-                print_r($project);
-            }
-            
-            return ($result);
+            return (count($projects['projects_ids']));
 
         },
-        'expected'=>true
-    ) */
+        'expected'=>3
+    )
 ];

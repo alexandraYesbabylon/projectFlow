@@ -9,11 +9,13 @@ class EmployeeProject extends Model {
             'project_id' => [
                 'type'           => 'many2one',
                 'foreign_object' => 'projectFlow\Project',
+                'ondelete'          => 'cascade',
             ],
 
             'employee_id' => [
                 'type'           => 'many2one',
                 'foreign_object' => 'projectFlow\Employee',
+                'ondelete'          => 'cascade',
             ],
 
             'hours' => [

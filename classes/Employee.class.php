@@ -42,6 +42,7 @@ class Employee extends Model {
             'company_id' => [
                 'type'              => 'many2one',
                 'foreign_object'    => 'projectFlow\Company',
+                'ondelete'          => 'cascade',
                 'required'          => true,
             ],
             //Each employee works in many projects

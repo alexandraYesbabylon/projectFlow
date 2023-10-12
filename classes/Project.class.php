@@ -32,6 +32,7 @@ class Project extends Model {
             'client_id' => [
                 'type'              => 'many2one',
                 'foreign_object'    => 'projectFlow\Client',
+                'ondelete'          => 'cascade',
                 'required'          => true,
             ],
             // Each employee can have projects

@@ -19,46 +19,65 @@ $tests = [
         'return'            =>  ['string'],
         'test'              =>  function () {
 
-            $company = Company::create([
-                    'name'        => "Company test Employee Project",
-                    'direction'   => "direction test",
-                    'phone'       => 123456789
-                ])->first();
+            $companyData = [
+                'name'          => 'Company test'. rand(),
+                'direction'     => 'direction test',
+                'phone'         => 123456789
+            ];
 
-            $employee = Employee::create([
-                    'firstname'        => "Juan",
-                    'lastname'         => "Pierre " .rand(),
-                    'direction'        => "direction client",
-                    'company_id'       => $company['id'],
-                    'email'            => "email@gmail.com"
-                ])->first();
+            $employeeData = [
+                'firstname'     => 'first test' . rand(),
+                'lastname'      => 'last test ' . rand(),
+                'direction'     => 'direction test',
+                'email'         => 'email@gmail.com'
+            ];
 
-            $client = Client::create([
-                    'name'        => "client project ". rand(),
-                    'direction'   => "direction  client",
-                    'phone'       => 123456789,
-                    'isactive'    => true
-                ])->first();
+            $clientData = [
+                'name' => 'client test ' . rand(),
+                'direction' => 'direction test',
+                'phone' => 123456789,
+                'isactive' => true
+            ];
+            $projectData = [
+                'name' => 'project test',
+                'description' => 'description test',
+                'direction' => 'direction test'
+            ];
+            $employeeProjectData = [
+                'hours' => 50
+            ];
 
-            $project = Project::create([
-                    'name'             => "name test Employee Project",
-                    'description'      => "description project",
-                    'direction'        => "direction client",
-                    'client_id'        => $client['id']
-                ])->first();
+            $company =  Company::create($companyData)->first();
 
-            $employeeProject = EmployeeProject::create([
-                    'project_id'       => $project['id'],
-                    'employee_id'      => $employee['id'],
-                    'hours'            => 50
-                ])
-                ->read(['project_id' => 'name', 'employee_id' => "name", 'hours'])
-                ->first(true);
+            if($company){
+                $employeeData['company_id'] = $company['id'];
+            }
+
+            $employee = Employee::create($employeeData)->read('name')->first();
+
+            $client = Client::create($clientData)->first();
+
+            if($client){
+                $projectData['client_id'] = $client['id'];
+            }
+
+            $project= Project::create($projectData)->first();
+
+            if($project && $employee){
+                $employeeProjectData['project_id'] = $project['id'];
+                $employeeProjectData['employee_id'] = $employee['id'];
+            }
+
+            $employeeProject=EmployeeProject::create($employeeProjectData)->first();
+
+            if($employeeProject){
+                $employeeProject =  EmployeeProject::id($employeeProject['id'])->read(['id','project_id' => 'name'])->first();
+            }
 
             return ($employeeProject['project_id']['name']);
         },
         'assert'            =>  function ($project) {
-            return ($project == 'name test Employee Project');
+            return ($project == 'project test');
         }
     ),
     '402'      => array(
@@ -67,12 +86,32 @@ $tests = [
         'test'              =>  function () {
 
 
-            $employee = Employee::search(["name", "like", "%". "Daniel Petit" ."%" ])->read('name')->first();
+            $employee_id = Employee::search(['name', 'like', '%'. 'Daniel Petit' .'%' ])->ids();
 
-            $employeeProject = EmployeeProject::search(['employee_id', '=', $employee['id']])->ids();
+            $employeeProject = EmployeeProject::search(['employee_id', '=', $employee_id])->ids();
 
             return (count($employeeProject));
         },
-        'expected'=> 3
+        'expected' => 3
     ),
+    /* '403'      => array(
+        'description'       => 'Delete all employeeProjects test',
+        'return'            => ['boolean'],
+        'test'              => function () {
+
+            $projects_ids = Project::search(['name' , 'like' , '%'. 'test'. '%'])->ids();
+
+            $employeeProjects= EmployeeProject::search(['project_id', 'in', $projects_ids])->ids();
+
+            if($employeeProjects){
+                EmployeeProject::ids($employeeProjects)->delete(true);
+            }
+
+            $isDeleted = EmployeeProject::ids($employeeProjects)->first(true);
+
+            return (empty($isDeleted));
+        },
+        'expected' => true
+    ) */
+
 ];

@@ -12,17 +12,17 @@ $providers = eQual::inject(['context', 'orm', 'auth', 'access']);
 
 $tests = [
 
-    '201'      => array(
+    '101'      => array(
         'description'       =>  'Creating company',
         'return'            =>  ['string'],
         'test'              =>  function () {
 
             $company = Company::create([
-                'name'        => "Company test",
-                'direction'   => "direction test",
+                'name'        => 'Company test',
+                'direction'   => 'direction test',
                 'phone'       => 123456789
                 ])
-                ->read(['id','name'])
+                ->read('name')
                 ->first(true);
 
             return ($company['name']);
@@ -31,33 +31,50 @@ $tests = [
             return ($name == 'Company test');
         }
     ),
-    '202'      => array(
+    '102'      => array(
         'description'       =>  'Assigning employees to the company  ',
         'return'            =>  ['integer'],
         'test'              =>  function () {
 
             $company = Company::create([
-                'name'        => "Company test",
-                'direction'   => "direction test",
+                'name'        => 'Company test',
+                'direction'   => 'direction test',
                 'phone'       => 123456789
-                ])
-                ->read(['id','name'])
-                ->first(true);
+                ])->first();
 
-            for($i= 1; $i<=5 ; $i++) {
+            $num_employees =  ($company)?  5 : 0;
+
+            for($i = 1; $i <= $num_employees ; $i++) {
                 Employee::create([
-                    'firstname'        => "first",
-                    'lastname'         => "last",
-                    'direction'        => "direction client" . $i,
+                    'firstname'        => 'first '. $i,
+                    'lastname'         => 'last '. $i,
+                    'direction'        => 'direction client' . $i,
                     'company_id'       => $company['id'],
-                    'email'            => $i."email@gmail.com"
-                ])->read(['name'])->first();
+                    'email'            => $i.'email@gmail.com'
+                ])->read('name');
             }
 
-            $employees = Company::search(['id', "=", $company['id']])->read(['employees_ids'])->first();
+            $employees = Company::id($company['id'])->read(['employees_ids'])->first(true);
 
             return (count($employees['employees_ids']));
         },
         'expected'=> 5
+    ),
+    '103'      => array(
+        'description'       => 'Delete all companies test',
+        'return'            => ['boolean'],
+        'test'              => function () {
+
+            $companies_ids = Company::search(['name' , 'like' , '%'. 'test'. '%'])->ids();
+
+            if($companies_ids){
+                Company::ids($companies_ids)->delete(true);
+            }
+
+            $isDeleted = Company::ids($companies_ids)->first(true);
+
+            return (empty($isDeleted));
+        },
+        'expected' => true
     )
 ];

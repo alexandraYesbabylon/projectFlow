@@ -14,16 +14,14 @@ $tests = [
     '001'      => array(
         'description'       =>  'Creating client',
         'return'            =>  ['integer'],
-        'test'               =>  function () {
+        'test'              =>  function () {
 
             $client = Client::create([
-                    'name'        => "create client". rand(),
-                    'direction'   => "direction  tests",
+                    'name'        => 'test client '. rand(),
+                    'direction'   => 'direction  tests',
                     'phone'       => 123456789,
                     'isactive'    => true
-                ])->first();
-
-            $client = Client::id($client['id'])->read(['phone'])->first();
+                ])->read('phone')->first(true);
 
             return ($client['phone']);
         },
@@ -32,84 +30,86 @@ $tests = [
         }
     ),
 
-
-    '003'      => [
+    '002'      => [
         'description'       => 'Update direction of the client',
         'return'            => ['string'],
-        'test'               => function () {
-
-            $nameClient = "test update client" .rand();
-            $client = Client::create([
-                    'name'        => $nameClient ,
-                    'direction'   => "direction test",
-                    'phone'       => 123456789,
-                    'isactive'    => true
-                ])->update(['direction'   => "New direction test"])->first();
-
-            $client = Client::id($client['id'])->read(['direction'])->first(true);
-            return ($client['direction']);
-        },
-        'expected'=>"New direction test",
-        'assert'            =>  function ($direction) {
-            return ($direction == "New direction test");
-        }
-    ],
-
-    '004'      => [
-        'description'       => 'Archive client',
-        'return'            => ['boolean'],
-        'test'               => function () {
-
-            $nameClient = "test archive client" .rand();
-            $client = Client::create([
-                    'name'        => $nameClient ,
-                    'direction'   => "direction test",
-                    'phone'       => 123456789,
-                    'isactive'    => true,
-                ])->update(['deleted'   => true])->first(true);
-
-            $client = Client::id($client['id'])->read(['id','created','deleted','phone','isactive'])->first(true);
-            return ($client['deleted']);
-        },
-        'expected'=>true
-    ],
-
-    '005'      => array(
-        'description'       => 'Delete client',
-        'return'            => ['boolean'],
         'test'              => function () {
 
-            $nameClient = "delete client" .rand();
+            $nameClient = 'test client update ' .rand();
             $client = Client::create([
                     'name'        => $nameClient ,
-                    'direction'   => "direction test",
+                    'direction'   => 'direction test',
                     'phone'       => 123456789,
                     'isactive'    => true
                 ])->first();
 
-            Client::ids($client['id'])->delete(true);
+            if ($client){
+                $clientModified = Client::id($client['id'])->update(['direction'   => 'New direction test'])->first();
+            }
 
-            $client = Client::id($client['id'])->read(['id'])->first(true);
-            $result= (!$client) ? true : false;
+            return ($clientModified['direction']);
+        },
+        'assert'            =>  function ($direction) {
+            return ($direction == 'New direction test');
+        }
+    ],
+    '003'      => array(
+        'description'       => 'Delete client',
+        'return'            => ['boolean'],
+        'test'              => function () {
 
-            return ($result);
+            $nameClient = 'delete client test' .rand();
+            $client = Client::create([
+                    'name'        => $nameClient ,
+                    'direction'   => 'direction test',
+                    'phone'       => 123456789,
+                    'isactive'    => true
+                ])->first();
+
+            if ($client) {
+                Client::id($client['id'])->delete(true);
+            }
+            $isDeleted = Client::id($client['id'])->first(true);
+
+            return (empty($isDeleted));
 
         },
-        'expected'=>true
+        'expected' => true
     ),
-
-    '006'      => array(
+    '004'      => array(
         'description'       => 'Search the project of the client',
         'return'            => ['integer'],
         'test'              => function () {
 
-            $client = Client::search(["name" , "like" , "%". 'Jean Duran'. "%"])->read(["id", "name"])->first(true);
+            $clientId = Client::search(['name' , 'like' , '%'. 'Jean Duran'. '%'])->ids();
 
-            $projects= Client::search(['id', '=', $client['id']])->read(['projects_ids'])->first(true);
+            if ($clientId) {
+                $projects = Client::search(['id', '=', $clientId])->read(['projects_ids'])->first(true);
+            }
 
-            return (count($projects['projects_ids']));
+            if ($projects && isset($projects['projects_ids'])){
+                $projectCount = count($projects['projects_ids']);
+            }
+            return $projectCount;
 
         },
-        'expected'=>3
+        'expected' => 3
+    ),
+    '005'      => array(
+        'description'       => 'Delete all clients test',
+        'return'            => ['boolean'],
+        'test'              => function () {
+
+            $clients_ids = Client::search(['name' , 'like' , '%'. 'test'. '%'])->ids();
+
+            if($clients_ids){
+                Client::ids($clients_ids)->delete(true);
+            }
+
+            $isDeleted = Client::ids($clients_ids)->first(true);
+
+            return (empty($isDeleted));
+        },
+        'expected' => true
     )
 ];

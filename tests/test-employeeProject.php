@@ -94,14 +94,16 @@ $tests = [
         },
         'expected' => 3
     ),
-    /* '403'      => array(
+    '403'      => array(
         'description'       => 'Delete all employeeProjects test',
         'return'            => ['boolean'],
         'test'              => function () {
 
             $projects_ids = Project::search(['name' , 'like' , '%'. 'test'. '%'])->ids();
 
-            $employeeProjects= EmployeeProject::search(['project_id', 'in', $projects_ids])->ids();
+            if($projects_ids){
+                $employeeProjects= EmployeeProject::search(['project_id', 'in', $projects_ids])->ids();
+            }
 
             if($employeeProjects){
                 EmployeeProject::ids($employeeProjects)->delete(true);
@@ -112,6 +114,6 @@ $tests = [
             return (empty($isDeleted));
         },
         'expected' => true
-    ) */
+    )
 
 ];

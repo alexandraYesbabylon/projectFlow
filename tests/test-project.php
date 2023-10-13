@@ -97,10 +97,12 @@ $tests = [
 
 
             $company_id = Company::search(['name', 'like', '%'. 'Company Flee' .'%' ])->ids();
-
-            $employees = Employee::search(['company_id' , '=' , $company_id])->ids();
-
-            $projects = Project::search(['employees_ids', 'contains', $employees])->ids();
+            if($company_id){
+                $employees = Employee::search(['company_id' , '=' , $company_id])->ids();
+            }
+            if($employees){
+                $projects = Project::search(['employees_ids', 'contains', $employees])->ids();
+            }
 
             return (count($projects));
         },

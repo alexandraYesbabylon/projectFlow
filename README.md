@@ -137,15 +137,15 @@ $ ./equal.run --do=test_package-consistency --package=projectFlow
 
 You need to create a account typing this command
 
-```json
-$ ./equal.run --do=model_create --entity=core\\User --fields[login]="project@example.com" --fields[password]="project"
+```
+$ ./equal.run --do=model_create --entity=core\\User --fields[login]='project@example.com' --fields[password]='project'
 ```
 
 **Note: User must be validated to be able to connect**
 
 To validate user type this command. You need to know your id.
 
-```json
+```
 $ ./equal.run --do=model_update --entity='core\User' --ids=3 --fields='{validated:true}'
 ```
 

@@ -38,10 +38,9 @@ $ ./equal.run --do=init_package --package=projectFlow
 
 ## 2.- Application structure
 
-An application is divided in several parts, stored in a package folder located under the `/packages` directory. For this example the name package is `/projectFlow `
+The application is organized into various components, which are stored within a package folder located under the `/packages` directory. In this example, the package is named `/projectFlow`.
 
-Each **package** is defined as follows :
-
+Each package is structured as follows:
 ```
 projectFlow
 ├── classes
@@ -58,11 +57,10 @@ projectFlow
 
 ## 3.- Initial application data
 
-Open`/data/init`,  you can see all the information that the database will have.
+To initialize the database, navigate to `/data/init`, where you can find all the information that will be stored in the database.
+The files in this directory follow a generic filename format: `{project_name}_{class_name}.json`.
 
-The generic filename format is: `{project_name}_{class_name}.json`
-
-Here an example of  `projectflow_Company.json`
+Here's an example: `projectflow_Company.json.`.
 
 ```json
 [
@@ -95,8 +93,7 @@ Here an example of  `projectflow_Company.json`
 
 ### Config file
 
-eQual expects an optional root config file in the `/config` directory.
-
+eQual Framework expects an optional root configuration file in the `/config` directory.
 ```
 {
     "DB_DBMS": "MYSQL",
@@ -121,7 +118,7 @@ eQual expects an optional root config file in the `/config` directory.
 ```
 $ ./equal.run --do=init_package --package=projectFlow --import=true
 ```
-You can see the tables created in  `equal`  data base. The names tables are `{{package_name}}_{{entity}}`
+You can see the tables created in  `equal` data base. The names tables are `{{package_name}}_{{entity}}`
 You can see the all data, open the table `projectflow_client` with your prefect DBMS.
 
 ### Consistency with Database
@@ -132,37 +129,40 @@ $ ./equal.run --do=test_package-consistency --package=projectFlow
 
 ```
 ## 4.- Authentication
-You need to create a account typing this command
+To create an account, use the following command:
 
 ```
 $ ./equal.run --do=model_create --entity=core\\User --fields[login]='project@example.com' --fields[password]='project'
 ```
 
-**Note**: User must be validated to be able to connect. To validate user type this command but you need to know your id.
+Please note that the user must be validated to gain access. To validate a user, use the following command. Make sure to have the user's ID:
 
 ```
 $ ./equal.run --do=model_update --entity='core\User' --ids=3 --fields='{validated:true}'
 ```
 
-Add a user as member of a given group.
+You can also add a user as a member of a specific group using the following command:
 
 ```
 $ ./equal.run --do=group_add-user --group=users --user=3
 ```
 
-Go to http://equal.local/apps/  ,login with your user and click in `Project` application.
+After completing these steps, go to http://equal.local/apps/, log in with your user credentials, and click on the "Project" application.
+
 
 ## 5.- Model definition
 
-Each Model is defined in a `.class.php` file , located in the `/packages/projectFlow/classes` . All classes inherit from a common ancestor: the `Model` class, declared in the `equal\orm` namespace and defined in `/lib/equal/orm/Model.class.php`.
+Each model is defined in a `.class.php` file located in the `/packages/projectFlow/classes directory`. All classes inherit from a common ancestor: the Model class, which is declared in the `equal\orm` namespace and defined in `/lib/equal/orm/Model.class.php`.
 
-A class is always referred to as an **entity** and belongs to a package. Packages and their subdirectories are used as ` namespaces package_name`
+In this context, a class is always referred to as an entity and belongs to a specific package. Packages and their subdirectories are used as namespaces with the format `package_name`.
 
-The generic filename format is: `{class_name}.class.php` .
+The standard filename format for these class files is: `{class_name}.class.php`.
 
 ### Company.class.php
 
-The `creationdate` is the current date by default  , so use `time() `.
+The `creationdate` field is automatically set to the current date by default, so you can use `time()` to capture it.
+
+Feel free to continue with additional information or explanations about the `Company` class and its structure.
 
 ```php
 <?php
@@ -204,24 +204,33 @@ class Company extends Model {
 }
 ```
 ### Client.class.php
-The `name` is mandatory and unique. The `isactive` is `true` by default
+-   The `name` field is mandatory and must be unique.
+-   The `isactive` field is set to `true` by default.
 
 ### Project.class.php
-The `name` is  mandatory, the `startdate` is the current date by default , the `budget` is 1000 by default , the `status` has the options `['draft', 'approved','in_progress','cancelled','finished'] `
+
+-   The `name` field is mandatory.
+-   The `startdate` field defaults to the current date.
+-   The `budget` field defaults to 1000.
+-   The `status` field has options: `['draft', 'approved', 'in_progress', 'cancelled', 'finished']`.
 
 ### Employee.class.php
-The `firstname` and `lastname `are mandatories. The `salary `  is 1000 by default.
-The  `name` field ,it stores by the `firstname` and `lastname`, so you can find the `calcName` function  which returns the concatenation.
-Also, we need to add the  `dependencies` in the `firstname` and `lastname`
+
+- The `firstname` and `lastname` fields are mandatory.
+- The `name`field is derived from the concatenation of `firstname` and `lastname`. This is achieved through the `calcName` function.
+-   Additional dependencies are added to the `firstname` and `lastname` fields.
+- The `salary` field defaults to 1000.
 
 ### EmployeeProject.class.php
-The `hours` is mandatory,
+- The `hours` field is mandatory,
 
 ## 6.- Views
 
-By default view for `list` and `form` types should be defined for each entity. Find all the view in  `views` folder of the package `projectFlow`
-The generic filename format is: `{class_name}.{view_type}.{view_name}.json` .
-Here an example of a `list` and a `form` of Company.
+For each entity, default views for both `list` and `form` types should be defined. These views can be found in the `/views` folder within the `projectFlow` package.
+
+The standard filename format for these views is: `{class_name}.{view_type}.{view_name}.json`.
+
+Here's an example of both a list and a form view for the `Company` entity:
 
 **Company.list.default.json**
 
@@ -264,17 +273,18 @@ Here an example of a `list` and a `form` of Company.
 }
 ```
 
-**Company.form.default.json**: The section `Employees` has been added to show the employees working in each company.
+**Company.form.default.json**: This view is designed for displaying detailed information about a company, including an additional section for listing employees associated with the company.
 
 ### Client
-**Client.list.default.json**: The result is sorted by `name` , with a `limit` of 10 par page.
+**Client.list.default.json**:
+The results are sorted by the `name` field. Pagination is implemented with a `limit` of 10 entries per page.
 
-**Client.form.default.json**: The section `Projects`  has been added to show the projects that each client has.
+**Client.form.default.json**: In this form view, a new section called `Projects` has been added. This section displays the list of projects associated with each client, providing a comprehensive view of the client's projects.
 
 ### Project
-**Project.list.default.json**: The result is sorted by `startdate`  and shows the total project budgets.
+**Project.list.default.json**: The list of projects is sorted by the `startdate` field, and the view includes the total budgets for all projects.
 
-**Project.form.default.json**: The section `Employees` has been added to show the employees working in each project.
+**Project.form.default.json**: This form view now includes a dedicated `Employees` section. This section provides information about the employees working on each project.
 
 ### Employee
 **Employee.list.default.json**: The result is sorted by `lastname` and `fistname`  and shows the total employees

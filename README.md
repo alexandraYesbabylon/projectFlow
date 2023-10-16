@@ -7,7 +7,7 @@
 
 ##  Model Entity relational
 
-<img src=".\img-english\DiagramModel.drawio.png" alt="DiagramModel.drawio" style="zoom:100%;" />
+<img src=".\assets\img\DiagramModel.drawio.png" alt="DiagramModel.drawio" style="zoom:100%;" />
 
 
 

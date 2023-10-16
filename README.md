@@ -404,7 +404,7 @@ $ ./equal.run --do=init_package --package=projectFlow
 
 This is the status flow of the project
 
-<img src=".\img-english\StatusProject.drawio.png" alt="StatusProject.drawio" style="zoom:100%;" />
+<img src=".\assets\img\StatusProject.drawio.png" alt="StatusProject.drawio" style="zoom:100%;" />
 
 
 
@@ -435,14 +435,6 @@ Here is the example for the actions
 	[...]
  ]
 ```
-
-You can see the status by Project.
-
-<img src=".\img-english\Status.png" alt="Status" style="zoom:67%;" />
-
-
-
-
 
 ## Controller View List
 

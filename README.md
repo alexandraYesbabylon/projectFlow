@@ -56,7 +56,7 @@ projectFlow
 ├── manifest.json
 ```
 
-## 3.- Initization data
+## 3.- Initial application data
 
 Open`/data/init`,  you can see all the information that the database will have.
 
@@ -219,7 +219,7 @@ The `hours` is mandatory,
 
 ## 6.- Views
 
-By default view for `list` and `form` types should be defined for each entity. The cand find all the view in  `views` folder of the package `projectFlow`
+By default view for `list` and `form` types should be defined for each entity. Find all the view in  `views` folder of the package `projectFlow`
 The generic filename format is: `{class_name}.{view_type}.{view_name}.json` .
 Here an example of a `list` and a `form` of Company.
 
@@ -267,11 +267,13 @@ Here an example of a `list` and a `form` of Company.
 **Company.form.default.json**: The section `Employees` has been added to show the employees working in each company.
 
 ### Client
-**Client.list.default.json**: The result is sorted by `name` , with a `limit` of 10 par page
+**Client.list.default.json**: The result is sorted by `name` , with a `limit` of 10 par page.
+
 **Client.form.default.json**: The section `Projects`  has been added to show the projects that each client has.
 
 ### Project
 **Project.list.default.json**: The result is sorted by `startdate`  and shows the total project budgets.
+
 **Project.form.default.json**: The section `Employees` has been added to show the employees working in each project.
 
 ### Employee

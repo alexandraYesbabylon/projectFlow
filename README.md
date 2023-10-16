@@ -151,7 +151,7 @@ $ ./equal.run --do=model_update --entity='core\User' --ids=3 --fields='{validate
 
 Add a user as member of a given group.
 
-```json
+```
 $ ./equal.run --do=group_add-user --group=users --user=3
 ```
 
@@ -396,7 +396,7 @@ See  `manifest.json`  file `/projectFlow`
 
 ### init_package
 
-```json
+```
 $ ./equal.run --do=init_package --package=projectFlow
 ```
 
@@ -413,7 +413,6 @@ See the method `getWorkflow` in the class `Project.class.php` that manages the p
 Here is the example for the actions
 
 ```json
- [...]
  "actions": [
     {
       "id": "action.draft",
@@ -432,7 +431,6 @@ Here is the example for the actions
         "ids": []
       }
     },
-	[...]
  ]
 ```
 

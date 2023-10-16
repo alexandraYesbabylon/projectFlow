@@ -3,16 +3,24 @@
 [![Maintainer](https://img.shields.io/badge/maintainer-alexandraYesbabylon-blue)](https://github.com/alexandraYesbabylon)
 
 
+# eQual Framework and ProjectFlow Application Documentation
 
-# Application projectFlow
+Welcome to the documentation for the eQual Framework and the ProjectFlow application. This document will guide you through the setup and usage of the eQual Framework, as well as the specific features and components of the ProjectFlow application.
+
+## About ProjectFlow
+ProjectFlow is an application built on top of the eQual Framework. It is designed to help manage projects, companies, employees, and more. This documentation will provide insights into the key aspects of the ProjectFlow application.
+
+Now, let's dive into the details of the eQual Framework and ProjectFlow application.
 
 ##  Model Entity relational
 
 <img src=".\assets\img\DiagramModel.drawio.png" alt="DiagramModel.drawio" style="zoom:100%;" />
 
 
+## 1.- Installation
+### Prerequisite
 
-
+ProjectFlow requires [eQual framework](https://github.com/equalframework/equal)
 
 ### Clone Project
 
@@ -22,13 +30,13 @@ Go to `/package` and run this command.
 $ git clone https://github.com/alexandraYesbabylon/projectFlow.git
 ```
 
-### init_package
+### Initialization package
 
 ```
 $ ./equal.run --do=init_package --package=projectFlow
 ```
 
-## Packages
+## 2.- Application structure
 
 An application is divided in several parts, stored in a package folder located under the `/packages` directory. For this example the name package is `/projectFlow `
 
@@ -48,9 +56,9 @@ projectFlow
 ├── manifest.json
 ```
 
-## Data Base
+## 3.- Data Base
 
-### Init data
+### Initization data
 
 Open`/data/init`,  you can see all the information that the database will have.
 
@@ -85,7 +93,7 @@ Here an example of  `projectflow_Company.json`
 
 
 
-## 2. Configure
+## 3.- Configure
 
 #### Config file
 
@@ -134,7 +142,7 @@ $ ./equal.run --do=test_package-consistency --package=projectFlow
 
 
 
-## Authentication
+## 4.- Authentication
 
 You need to create a account typing this command
 
@@ -156,11 +164,9 @@ Add a user as member of a given group.
 $ ./equal.run --do=group_add-user --group=users --user=3
 ```
 
-### Symbiose
-
 Go to http://equal.local/apps/  ,login with your user and click in `Project` application.
 
-## Model definition
+## 5.- Model definition
 
 Each Model is defined in a `.class.php` file , located in the `/packages/projectFlow/classes` . All classes inherit from a common ancestor: the `Model` class, declared in the `equal\orm` namespace and defined in `/lib/equal/orm/Model.class.php`.
 
@@ -211,7 +217,6 @@ class Company extends Model {
 
 }
 ```
-
 ### Client.class.php
 
 The `name` is mandatory and unique. The `isactive` is `true` by default

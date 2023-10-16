@@ -18,11 +18,11 @@ Now, let's dive into the details of the eQual Framework and ProjectFlow applicat
 
 
 ## 1.- Installation
-### Prerequisite
+Prerequisite
 
 ProjectFlow requires [eQual framework](https://github.com/equalframework/equal)
 
-### Clone Project
+Clone Project
 
 Go to `/package` and run this command.
 
@@ -30,7 +30,7 @@ Go to `/package` and run this command.
 $ git clone https://github.com/alexandraYesbabylon/projectFlow.git
 ```
 
-### Initialization package
+Initialization package
 
 ```
 $ ./equal.run --do=init_package --package=projectFlow

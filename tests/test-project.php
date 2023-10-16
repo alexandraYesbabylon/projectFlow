@@ -18,42 +18,55 @@ $tests = [
     '501'      => array(
         'description'       =>  'Create project',
         'return'            =>  ['string'],
-        'test'              =>  function () {
-
+        'arrange'           =>  function () {
             $client = Client::create([
-                    'name'        => 'client test '. rand(),
-                    'direction'   => 'direction test',
-                    'phone'       => 123456789,
-                    'isactive'    => true
-                ])->first();
+                'name'        => 'client test',
+                'direction'   => 'direction test',
+                'phone'       => 123456789,
+                'isactive'    => true
+            ])->first();
 
-            $project = Project::create([
+            return($client);
+        },
+        'act'              =>  function ($client) {
+
+            if($client){
+                $project = Project::create([
                     'name'             => 'project test',
                     'description'      => 'description test',
                     'direction'        => 'direction test',
                     'client_id'        => $client['id']
                 ])->first();
+            }
 
-            $project = Project::id($project['id'])->read(['status'])->first();
+            if($project){
+                $project = Project::id($project['id'])->read(['status'])->first();
+            }
 
             return ($project['status']);
         },
         'assert'            =>  function ($status) {
             return ($status == 'draft');
+        },
+        'rollback'          => function() {
+            Project::search(['name', '=', 'project test'])->delete(true);
+            Client::search(['name', '=', 'client test'])->delete(true);
         }
     ),
     '502'      => array(
-        'description'       =>  'Create five projects for a client',
+        'description'       =>  'Create five projects for the client',
         'return'            =>  ['integer'],
-        'test'              =>  function () {
-
+        'arrange'           =>  function () {
             $client = Client::create([
                 'name'        => 'client test',
-                'direction'   => 'direction  test',
+                'direction'   => 'direction test',
                 'phone'       => 123456789,
                 'isactive'    => true
+            ])->first();
 
-                ])->first();
+            return($client);
+        },
+        'act'              =>  function ($client) {
 
             $num_projects =  ($client)?  5 : 0;
 
@@ -68,37 +81,58 @@ $tests = [
 
             $projects = Project::search(['client_id', '=', $client['id']])->ids();
 
-            return (count($projects));
+            if($projects){
+                $count_project = count($projects);
+            }
+            return ((int) $count_project);
         },
-        'expected'=> 5
+        'assert'            =>  function ($count_project) {
+            return ($count_project == 5);
+        },
+        'rollback'          => function() {
+            Project::search(['name', '=', 'project test'])->delete(true);
+            Client::search(['name', '=', 'client test'])->delete(true);
+        }
     ),
     '503'      => array(
-        'description'       =>  'Search the projects by client',
+        'description'       =>  'Search the projects by client.',
+        'help'              =>  'The test uses data from the client, be sure to initialize the projectFlow package with your data.',
         'return'            =>  ['string'],
-        'test'              =>  function () {
+        'arrange'           =>  function () {
+            $client = Client::search(['name', 'like', '%'. 'Pierre Lopez' .'%' ])->read('id')->first();
 
-            $client_id = Client::search(['name', 'like', '%'. 'Pierre Lopez' .'%' ])->ids();
+            return ($client);
+        },
+        'act'              =>  function ($client) {
 
-            if($client_id){
-                $projects = Project::search(['client_id', '=', $client_id])->read('name')->first(true);
+            if($client){
+                $project = Project::search(['client_id', '=', $client['id']])->read('name')->first(true);
             }
 
-            return ($projects['name']);
+            if($project){
+                $project_name= $project['name'];
+            }
+
+            return ($project_name);
         },
-        'assert'            =>  function ($project) {
-            return ($project == 'flight reservations');
+        'assert'            =>  function ($project_name) {
+            return ($project_name == 'flight reservations');
         }
     ),
 
     '504'      => array(
-        'description'       =>  'Search the projects that works the employees of the the company',
+        'description'       =>  'Search the projects that works the employees of the the company.',
+        'help'              =>  'The test uses data from the company, be sure to initialize the projectFlow package with your data.',
         'return'            =>  ['integer'],
-        'test'              =>  function () {
+        'arrange'           =>  function () {
+            $company = Company::search(['name', 'like', '%'. 'Company Flee' .'%' ])->read('id')->first();
 
+            return ($company);
+        },
+        'act'              =>  function ($company) {
 
-            $company_id = Company::search(['name', 'like', '%'. 'Company Flee' .'%' ])->ids();
-            if($company_id){
-                $employees = Employee::search(['company_id' , '=' , $company_id])->ids();
+            if($company){
+                $employees = Employee::search(['company_id' , '=' , $company['id']])->ids();
             }
             if($employees){
                 $projects = Project::search(['employees_ids', 'contains', $employees])->ids();
@@ -110,40 +144,26 @@ $tests = [
     ),
 
     '505'      => array(
-        'description'       =>  'Search the project by a budget range',
+        'description'       =>  'Search the project by a budget range.',
+        'help'              =>  'The test uses data from the project, be sure to initialize the projectFlow package with your data.',
         'return'            =>  ['string'],
-        'test'              =>  function () {
+        'act'              =>  function () {
             $budget_min = 1000;
             $budget_max = 2000;
 
             $projects = Project::search([
-                ['budget', '>=', $budget_min],
-                ['budget', '<=', $budget_max]
-            ])->read('name')->first(true);
+                    ['budget', '>=', $budget_min],
+                    ['budget', '<=', $budget_max]
+                ])->read('name')->first(true);
 
-            return ($projects['name']);
-        },
-        'assert'            =>  function ($project) {
-            return ($project == 'client management');
-        }
-    ),
-    '506'      => array(
-        'description'       => 'Delete all projects test',
-        'return'            => ['boolean'],
-        'test'              => function () {
-
-            $projects_ids = Project::search(['name' , 'like' , '%'. 'test'. '%'])->ids();
-
-            if($projects_ids){
-                Project::ids($projects_ids)->delete(true);
+            if($projects){
+                $project_name = $projects['name'];
             }
-
-            $isDeleted = Project::ids($projects_ids)->first(true);
-
-            return (empty($isDeleted));
+            return ($project_name);
         },
-        'expected' => true
+        'assert'            =>  function ($project_name) {
+            return ($project_name == 'client management');
+        }
     )
-
 
 ];

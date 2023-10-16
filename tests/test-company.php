@@ -13,34 +13,43 @@ $providers = eQual::inject(['context', 'orm', 'auth', 'access']);
 $tests = [
 
     '101'      => array(
-        'description'       =>  'Creating company',
+        'description'       =>  'Create company.',
         'return'            =>  ['string'],
-        'test'              =>  function () {
+        'act'              =>  function () {
 
             $company = Company::create([
                 'name'        => 'Company test',
                 'direction'   => 'direction test',
                 'phone'       => 123456789
-                ])
-                ->read('name')
-                ->first(true);
+                ])->first(true);
+
+            if($company){
+                $company = Company::id($company['id'])->read('name')->first(true);
+            }
 
             return ($company['name']);
         },
         'assert'            =>  function ($name) {
             return ($name == 'Company test');
+        },
+        'rollback'          => function() {
+            Company::search(['name', '=', 'Company test'])->delete(true);
         }
     ),
     '102'      => array(
-        'description'       =>  'Assigning employees to the company  ',
+        'description'       =>  'Assigning  five employees to the company.',
         'return'            =>  ['integer'],
-        'test'              =>  function () {
+        'arrange'           => function () {
 
             $company = Company::create([
                 'name'        => 'Company test',
                 'direction'   => 'direction test',
                 'phone'       => 123456789
                 ])->first();
+
+            return($company);
+        },
+        'act'               =>  function ($company){
 
             $num_employees =  ($company)?  5 : 0;
 
@@ -55,26 +64,16 @@ $tests = [
             }
 
             $employees = Company::id($company['id'])->read(['employees_ids'])->first(true);
+            $count_employees= count($employees['employees_ids']);
 
-            return (count($employees['employees_ids']));
+            return ($count_employees);
         },
-        'expected'=> 5
-    ),
-    '103'      => array(
-        'description'       => 'Delete all companies test',
-        'return'            => ['boolean'],
-        'test'              => function () {
-
-            $companies_ids = Company::search(['name' , 'like' , '%'. 'test'. '%'])->ids();
-
-            if($companies_ids){
-                Company::ids($companies_ids)->delete(true);
-            }
-
-            $isDeleted = Company::ids($companies_ids)->first(true);
-
-            return (empty($isDeleted));
+        'assert'            =>  function ($count_employees) {
+            return ($count_employees == 5);
         },
-        'expected' => true
+        'rollback'          => function() {
+            Company::search(['name', '=', 'Company test'])->delete(true);
+        }
+
     )
 ];

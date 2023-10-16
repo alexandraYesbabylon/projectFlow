@@ -15,39 +15,23 @@ $providers = eQual::inject(['context', 'orm', 'auth', 'access']);
 $tests = [
 
     '401'      => array(
-        'description'       =>  'Create Employee Project',
+        'description'       =>  'Create Employee Project.',
         'return'            =>  ['string'],
-        'test'              =>  function () {
-
+        'arrange'           =>  function () {
             $companyData = [
-                'name'          => 'Company test'. rand(),
+                'name'          => 'Company test',
                 'direction'     => 'direction test',
                 'phone'         => 123456789
             ];
 
+            $company =  Company::create($companyData)->first();
+
             $employeeData = [
-                'firstname'     => 'first test' . rand(),
-                'lastname'      => 'last test ' . rand(),
+                'firstname'     => 'first test',
+                'lastname'      => 'last test ',
                 'direction'     => 'direction test',
                 'email'         => 'email@gmail.com'
             ];
-
-            $clientData = [
-                'name' => 'client test ' . rand(),
-                'direction' => 'direction test',
-                'phone' => 123456789,
-                'isactive' => true
-            ];
-            $projectData = [
-                'name' => 'project test',
-                'description' => 'description test',
-                'direction' => 'direction test'
-            ];
-            $employeeProjectData = [
-                'hours' => 50
-            ];
-
-            $company =  Company::create($companyData)->first();
 
             if($company){
                 $employeeData['company_id'] = $company['id'];
@@ -55,7 +39,20 @@ $tests = [
 
             $employee = Employee::create($employeeData)->read('name')->first();
 
+            $clientData = [
+                'name' => 'client test',
+                'direction' => 'direction test',
+                'phone' => 123456789,
+                'isactive' => true
+            ];
+
             $client = Client::create($clientData)->first();
+
+            $projectData = [
+                'name' => 'project test',
+                'description' => 'description test',
+                'direction' => 'direction test'
+            ];
 
             if($client){
                 $projectData['client_id'] = $client['id'];
@@ -63,9 +60,21 @@ $tests = [
 
             $project= Project::create($projectData)->first();
 
+            $employeeProjectData['project_id'] = $project['id'];
+            $employeeProjectData['employee_id'] = $employee['id'];
+
+            return $employeeProjectData;
+        },
+        'act'              =>  function ($data) {
+
+            $employee = Employee::id($data['employee_id'])->read('id')->first(true);
+
+            $project = Project::id($data['project_id'])->read('id')->first(true);
+
             if($project && $employee){
                 $employeeProjectData['project_id'] = $project['id'];
                 $employeeProjectData['employee_id'] = $employee['id'];
+                $employeeProjectData['hours'] = 50;
             }
 
             $employeeProject=EmployeeProject::create($employeeProjectData)->first();
@@ -74,46 +83,45 @@ $tests = [
                 $employeeProject =  EmployeeProject::id($employeeProject['id'])->read(['id','project_id' => 'name'])->first();
             }
 
-            return ($employeeProject['project_id']['name']);
+            $name_project = $employeeProject['project_id']['name'];
+
+            return ($name_project);
         },
-        'assert'            =>  function ($project) {
-            return ($project == 'project test');
+        'assert'            =>  function ($name_project) {
+            return ($name_project == 'project test');
+        },
+        'rollback'          => function() {
+            Project::search(['name', '=', 'project test'])->delete(true);
+            Client::search(['name', '=', 'client test'])->delete(true);
+            Employee::search(['name', '=', 'first test last test'])->delete(true);
+            Company::search(['name', '=', 'Company test'])->delete(true);
+
         }
     ),
     '402'      => array(
         'description'       =>  'Search the projects by employee',
+        'help'              =>  'The test uses data from the employee, be sure to initialize the projectFlow package with your data.',
         'return'            =>  ['integer'],
-        'test'              =>  function () {
+        'arrange'            =>  function () {
+            $employee = Employee::search(['name', 'like', '%'. 'Daniel Petit' .'%' ])->read('id')->first();
 
-
-            $employee_id = Employee::search(['name', 'like', '%'. 'Daniel Petit' .'%' ])->ids();
-
-            $employeeProject = EmployeeProject::search(['employee_id', '=', $employee_id])->ids();
-
-            return (count($employeeProject));
+            return($employee);
         },
-        'expected' => 3
-    ),
-    '403'      => array(
-        'description'       => 'Delete all employeeProjects test',
-        'return'            => ['boolean'],
-        'test'              => function () {
+        'act'               =>  function ($employee) {
 
-            $projects_ids = Project::search(['name' , 'like' , '%'. 'test'. '%'])->ids();
-
-            if($projects_ids){
-                $employeeProjects= EmployeeProject::search(['project_id', 'in', $projects_ids])->ids();
+            if($employee){
+                $employeeProject_ids = EmployeeProject::search(['employee_id', '=', $employee['id']])->ids();
             }
 
-            if($employeeProjects){
-                EmployeeProject::ids($employeeProjects)->delete(true);
+            if($employeeProject_ids){
+                $count_id_employeeProjects = count($employeeProject_ids);
             }
 
-            $isDeleted = EmployeeProject::ids($employeeProjects)->first(true);
-
-            return (empty($isDeleted));
+            return ( (int) $count_id_employeeProjects);
         },
-        'expected' => true
+        'assert'            =>  function ($count_id_employeeProjects) {
+            return ($count_id_employeeProjects == 3);
+        }
     )
 
 ];

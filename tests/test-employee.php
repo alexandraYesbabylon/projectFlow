@@ -14,70 +14,73 @@ $providers = eQual::inject(['context', 'orm', 'auth', 'access']);
 $tests = [
 
     '301'      => array(
-        'description'       =>  'Creating employee',
+        'description'       =>  'Creating employee.',
         'return'            =>  ['string'],
-        'test'              =>  function () {
+        'arrange'           =>  function () {
 
             $company = Company::create([
-                    'name'        => 'Company test',
-                    'direction'   => 'direction test',
-                    'phone'       => 123456789
-                ])->first(true);
+                'name'        => 'Company test',
+                'direction'   => 'direction test',
+                'phone'       => 123456789
+            ])->first();
 
-            if($company && isset($company['id'])){
+            return($company);
+        },
+        'act'              =>  function ($company) {
+
+            if($company){
                 $employee = Employee::create([
                         'firstname'        => 'first test',
                         'lastname'         => 'last test',
                         'direction'        => 'direction client test',
                         'company_id'       => $company['id'],
                         'email'            => 'email@gmail.com'
-                    ])->read('name')->first();
+                    ])->first(true);
             }
+            if($employee){
+                $employee = Employee::id($employee['id'])->read('name')->first(true);
+            }
+
             return ($employee['name']);
         },
         'assert'            =>  function ($name) {
                 return ($name == 'first test last test');
+        },
+        'rollback'          => function() {
+            Employee::search(['name', '=', 'first test last test'])->delete(true);
+            Company::search(['name', '=', 'Company test'])->delete(true);
         }
     ),
     '302'      => array(
-        'description'       => 'Calculate the total the budget of the projects by the employee',
+        'description'       => 'Calculate the total the budget of the projects by the employee.',
+        'help'              => 'The test uses data from the employee, be sure to initialize the projectFlow package with your data.',
         'return'            =>  ['integer'],
-        'test'              => function () {
-
+        'arrange'           => function () {
             $employee = Employee::search(['name' , 'like' , '%'. 'Marie Grand'. '%'])
                 ->read('projects_ids')
-                ->first(true);
+                ->first();
 
-            $projects=$employee['projects_ids'];
+            return($employee);
+        },
+        'act'              => function ($employee) {
 
-            $budget=0;
-            foreach($projects as $id => $project) {
-                $project= Project::id($project['id'])->read('budget')->first(true);
+            if($employee){
+                $projects = $employee['projects_ids'];
+            }
+
+            $budget = 0;
+            foreach($projects as $project) {
+                $project = Project::id($project['id'])->read('budget')->first(true);
                 $budget += $project['budget'];
 
             }
 
-            return((int)$budget);
+            return((int) $budget);
 
         },
-        'expected' => 62000
-    ),
-    '303'      => array(
-        'description'       => 'Delete all employees test',
-        'return'            => ['boolean'],
-        'test'              => function () {
-
-            $employees_ids = Employee::search(['name' , 'like' , '%'. 'test'. '%'])->ids();
-
-            if($employees_ids){
-                Employee::ids($employees_ids)->delete(true);
-            }
-
-            $isDeleted = Employee::ids($employees_ids)->first(true);
-
-            return (empty($isDeleted));
-        },
-        'expected' => true
+        'assert'            =>  function ($budget) {
+            return ($budget == 62000);
+        }
     )
 
 ];

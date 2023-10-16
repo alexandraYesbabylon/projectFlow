@@ -12,104 +12,78 @@ $providers = eQual::inject(['context', 'orm', 'auth', 'access']);
 $tests = [
 
     '001'      => array(
-        'description'       =>  'Creating client',
+        'description'       =>  'Create client.',
         'return'            =>  ['integer'],
-        'test'              =>  function () {
+        'act'               =>  function () {
 
             $client = Client::create([
-                    'name'        => 'test client '. rand(),
+                    'name'        => 'test client',
                     'direction'   => 'direction  tests',
                     'phone'       => 123456789,
                     'isactive'    => true
-                ])->read('phone')->first(true);
+                ])->first();
+
+            $client = Client::id($client['id'])->read('phone')->first(true);
 
             return ($client['phone']);
         },
         'assert'            =>  function ($phone) {
             return ($phone == 123456789);
+        },
+        'rollback'          => function() {
+            Client::search(['name', '=', 'test client'])->delete(true);
         }
     ),
-
     '002'      => [
-        'description'       => 'Update direction of the client',
+        'description'       => 'Update direction of the client.',
         'return'            => ['string'],
-        'test'              => function () {
+        'arrange'            => function () {
 
-            $nameClient = 'test client update ' .rand();
             $client = Client::create([
-                    'name'        => $nameClient ,
+                    'name'        => 'test client update',
                     'direction'   => 'direction test',
                     'phone'       => 123456789,
                     'isactive'    => true
                 ])->first();
 
-            if ($client){
-                $clientModified = Client::id($client['id'])->update(['direction'   => 'New direction test'])->first();
+            return ($client);
+
+        },
+        'act'              => function ($client) {
+            if($client){
+                $client = Client::id($client['id'])->update(['direction'   => 'New direction test'])->first();
             }
 
-            return ($clientModified['direction']);
+            return ($client['direction']);
         },
         'assert'            =>  function ($direction) {
             return ($direction == 'New direction test');
+        },
+        'rollback'          => function() {
+            Client::search(['name', '=', 'test client update'])->delete(true);
         }
     ],
-    '003'      => array(
-        'description'       => 'Delete client',
-        'return'            => ['boolean'],
-        'test'              => function () {
 
-            $nameClient = 'delete client test' .rand();
-            $client = Client::create([
-                    'name'        => $nameClient ,
-                    'direction'   => 'direction test',
-                    'phone'       => 123456789,
-                    'isactive'    => true
-                ])->first();
+    '003'      => array(
+        'description'      => 'Search the project of the client.',
+        'help'             => 'The test uses data from the client, be sure to initialize the projectFlow package with your data.',
+        'return'           => ['integer'],
+        'act'              => function () {
+
+            $client = Client::search(['name' , 'like' , '%'. 'Jean Duran'. '%'])->read(['id'])->first();
 
             if ($client) {
-                Client::id($client['id'])->delete(true);
-            }
-            $isDeleted = Client::id($client['id'])->first(true);
-
-            return (empty($isDeleted));
-
-        },
-        'expected' => true
-    ),
-    '004'      => array(
-        'description'       => 'Search the project of the client',
-        'return'            => ['integer'],
-        'test'              => function () {
-
-            $clientId = Client::search(['name' , 'like' , '%'. 'Jean Duran'. '%'])->ids();
-
-            if ($clientId) {
-                $projects = Client::search(['id', '=', $clientId])->read(['projects_ids'])->first(true);
+                $projects = Client::search(['id', '=', $client['id']])->read(['projects_ids'])->first(true);
             }
 
             if ($projects && isset($projects['projects_ids'])){
-                $projectCount = count($projects['projects_ids']);
+                $count_project = count($projects['projects_ids']);
             }
-            return $projectCount;
+            return (int) $count_project;
 
         },
-        'expected' => 3
-    ),
-    '005'      => array(
-        'description'       => 'Delete all clients test',
-        'return'            => ['boolean'],
-        'test'              => function () {
-
-            $clients_ids = Client::search(['name' , 'like' , '%'. 'test'. '%'])->ids();
-
-            if($clients_ids){
-                Client::ids($clients_ids)->delete(true);
-            }
-
-            $isDeleted = Client::ids($clients_ids)->first(true);
-
-            return (empty($isDeleted));
-        },
-        'expected' => true
+        'assert'            =>  function ($count_project) {
+            return ($count_project == 3);
+        }
     )
 ];

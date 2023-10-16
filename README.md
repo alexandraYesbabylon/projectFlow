@@ -1,7 +1,8 @@
 
+[![eQual](https://img.shields.io/badge/framework-eQualFramework-brightgreen)](https://github.com/equalframework/equal)
 [![Maintainer](https://img.shields.io/badge/maintainer-alexandraYesbabylon-blue)](https://github.com/alexandraYesbabylon)
 
-[![eQual](https://img.shields.io/badge/framework-eQualFramework-brightgreen)](https://github.com/equalframework/equal)
+
 
 # Application projectFlow
 
@@ -23,7 +24,7 @@ $ git clone https://github.com/alexandraYesbabylon/projectFlow.git
 
 ### init_package
 
-```json
+```
 $ ./equal.run --do=init_package --package=projectFlow
 ```
 

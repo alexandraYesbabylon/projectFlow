@@ -1,156 +1,576 @@
 
-[![Maintainer](https://img.shields.io/badge/alexandraYesbabylon-blue)](https://github.com/alexandraYesbabylon)
-[![PRs Welcome](https://img.shields.io/badge/PRs-welcome-brightgreen.svg?style=flat-square)](https://github.com/cedricfrancoys/equal/pulls)
-![eQual](https://github.com/equalframework/equal/blob/master/public/assets/img/equal_logo.png?raw=true)
-# Create great Apps, your way!
+[![Maintainer](https://img.shields.io/badge/maintainer-alexandraYesbabylon-blue)](https://github.com/alexandraYesbabylon)
 
-eQual is a versatile, language-agnostic and web-oriented framework, aiming to elegantly manage interactions between front-end Apps and Business Logic involved in modern Web Applications.
 
-## Benefits
+# Application projectFlow
 
-**Rock Solid Security** Secure every API endpoint with User Management, Role-Based Access Controls, SSO Authentication, JWT, CORS, and OAuth.
+##  Model Entity relational
 
-**Server-Side Scripting** Implement custom logic on the request or response of any API endpoint or quickly build your own custom APIs with JavaScript V8, Node.js, or PHP.
+<img src=".\img-english\DiagramModel.drawio.png" alt="DiagramModel.drawio" style="zoom:100%;" />
 
-**Low-Code Instant APIs** Automatically generate a complete set of REST APIs with live documentation for any SQL or NoSQL database, file storage system, or external service.
 
-## Example
 
-### CLI
-`$ ./equal.run --get=demo_first`
 
-### HTTP
-`GET /?get=demo_first HTTP/1.1`
 
-### Source
+### Clone Project
+
+Go to `/package` and run this command.
+
 ```
-<?php
-// Tired of steep learning curves?
-echo "This Contoller is valid and generates a HTTP compliant response!";
+$ git clone https://github.com/alexandraYesbabylon/projectFlow.git
 ```
 
-## Requirements
+### init_package
 
-eQual requires the following environment:
-
-* **PHP 7+** with extensions mysqli (mandatory) + gd opcache zip tidy (optional)
-* **Apache 2+** or **Nginx**
-* **MySQL 5+** compatible DBMS (tested up to MySQL 5.7 and MariaDB 10.3)
-
-## Install
-
-Download code as ZIP:
-```
-wget https://github.com/equalframework/equal/archive/master.zip
-```
-or clone with Git :
-```
-git clone https://github.com/equalframework/equal.git
+```json
+$ ./equal.run --do=init_package --package=projectFlow
 ```
 
-For more info, see : [http://doc.equal.run/getting-started/installation](http://doc.equal.run/getting-started/installation/)
+## Packages
 
+An application is divided in several parts, stored in a package folder located under the `/packages` directory. For this example the name package is `/projectFlow `
 
+Each **package** is defined as follows :
 
-## Code Coverage setup
-
-Config for PHP 7.4 with xdebug
-
-In dockerfile, xdebug can be added with following command
 ```
-RUN pecl install xdebug-3.1.6
-```
-
-php.ini
-```
-zend_extension=xdebug
-```
-
-Create tests directory
-```
-mkdir tests
+projectFlow
+├── classes
+│   └── */*.class.php
+├── data
+│   └── *.json
+├── init
+│   └── data
+│   	└── *.json
+├── views
+│   └── *.json
+├── manifest.json
 ```
 
-Create `tests/CoverageTest.php` file
+## Data Base
+
+### Init data
+
+Open`/data/init`,  you can see all the information that the database will have.
+
+The generic filename format is: `{project_name}_{class_name}.json`
+
+Here an example of  `projectflow_Company.json`
+
+```json
+[
+  {
+    "name": "projectFlow\\Company",
+    "lang": "en",
+    "data": [
+      {
+        "id": 1,
+        "name": "Yesbabylon",
+        "direction": "Bd du Souverain 24",
+        "creationdate": "2023-06-01",
+        "phone": "0486152419"
+      },
+      {
+        "id": 2,
+        "name": "Company Flee",
+        "direction": "rue de la reine",
+        "creationdate": "2013-06-27",
+        "phone": "0485963215"
+      }
+    ]
+  }
+]
 ```
-<?php
-use PHPUnit\Framework\TestCase;
-use equal\test\Tester;
-include('eq.lib.php');
 
-final class CoverageTest extends TestCase {
 
-	public function test(): void {
-		$tests_path = "packages/core/tests";
-		if(is_dir($tests_path)) {
-			foreach (glob($tests_path."/*.php") as $filename) {
-				include($filename);
-				$tester = new Tester($tests);
-				$tester->test()->toArray();
-			}
-		}
-		$this->assertTrue(true);
-	}
 
-}
-```
+## 2. Configure
 
-composer.json
+#### Config file
+
+eQual expects an optional root config file in the `/config` directory.
+
 ```
 {
-    "require": {
-    },
-    "require-dev": {
-        "phpunit/phpunit": "^9.5",
-        "phpunit/php-code-coverage": "^9.2",
-        "symplify/easy-coding-standard": "^11.1"
-    }
+    "DB_DBMS": "MYSQL",
+    "DB_HOST": "equal_db",
+    "DB_PORT": "3306",
+    "DB_USER": "root",
+    "DB_PASSWORD": "test",
+    "DB_NAME": "equal",
+    "DEFAULT_RIGHTS": "QN_R_CREATE | QN_R_READ | QN_R_DELETE | QN_R_WRITE",
+    "DEBUG_MODE": "QN_MODE_PHP | QN_MODE_ORM | QN_MODE_SQL",
+    "DEBUG_LEVEL": "E_ALL | E_ALL",
+    "DEFAULT_PACKAGE": "core",
+    "AUTH_SECRET_KEY": "my_secret_key",
+    "AUTH_ACCESS_TOKEN_VALIDITY": "5d",
+    "AUTH_REFRESH_TOKEN_VALIDITY": "90d",
+    "AUTH_TOKEN_HTTPS": false,
+    "ROOT_APP_URL": "http://equal.local"
 }
 ```
 
-Install composer and dependencies
+
+
+#### Initiate your package with initial data in DB
+
 ```
-./equal.run --do=init_composer
+$ ./equal.run --do=init_package --package=projectFlow --import=true
 ```
 
-phpunit.xml
-```
-<?xml version="1.0" encoding="UTF-8"?>
-<phpunit xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-         xsi:noNamespaceSchemaLocation="https://schema.phpunit.de/9.5/phpunit.xsd"
-         bootstrap="vendor/autoload.php"
-         cacheResultFile="cache/test-results"
-         executionOrder="depends,defects"
-         forceCoversAnnotation="false"
-         beStrictAboutCoversAnnotation="false"
-         beStrictAboutOutputDuringTests="true"
-         beStrictAboutTodoAnnotatedTests="true"
-         convertDeprecationsToExceptions="true"
-         failOnRisky="false"
-         failOnWarning="true"
-         verbose="true">
-    <testsuites>
-        <testsuite name="default">
-            <directory>tests</directory>
-        </testsuite>
-    </testsuites>
+You can see the tables created in  `equal`  data base. The names tables are `{{package_name}}_{{entity}}`
 
-    <coverage cacheDirectory="cache/code-coverage"
-              processUncoveredFiles="true">
-        <include>
-            <directory suffix=".php">lib</directory>
-        </include>
-    </coverage>
-</phpunit>
-```
+You can see the all data, open the table `projectflow_client` with your prefect DBMS.
 
-Alternate script generation:
+
+#### Consistency with Database
+
+Performs consistency checks between DB and class as well as syntax validation for classes (PHP), views and translation files (JSON). Typing this command.
+
 ```
-./vendor/bin/phpunit --generate-configuration
+$ ./equal.run --do=test_package-consistency --package=projectFlow
 ```
 
 
-Run coverage tests and HTML reporting
+
+## Authentication
+
+You need to create a account typing this command
+
+```json
+$ ./equal.run --do=model_create --entity=core\\User --fields[login]="project@example.com" --fields[password]="project"
 ```
-XDEBUG_MODE=coverage ./vendor/bin/phpunit --coverage-html tests/report
+
+**Note: User must be validated to be able to connect**
+
+To validate user type this command. You need to know your id.
+
+```json
+$ ./equal.run --do=model_update --entity='core\User' --ids=3 --fields='{validated:true}'
+```
+
+Add a user as member of a given group.
+
+```json
+$ ./equal.run --do=group_add-user --group=users --user=3
+```
+
+### Symbiose
+
+Go to http://equal.local/apps/  ,login with your user and click in `Project` application.
+
+## Model definition
+
+Each Model is defined in a `.class.php` file , located in the `/packages/projectFlow/classes` . All classes inherit from a common ancestor: the `Model` class, declared in the `equal\orm` namespace and defined in `/lib/equal/orm/Model.class.php`.
+
+A class is always referred to as an **entity** and belongs to a package. Packages and their subdirectories are used as ` namespaces package_name`
+
+The generic filename format is: `{class_name}.class.php` .
+
+### Company.class.php
+
+The `creationdate` is the current date by default  , so use `time() `.
+
+```php
+<?php
+namespace projectFlow;
+use equal\orm\Model;
+
+class Company extends Model {
+
+    public static function getColumns() {
+        return [
+            'name' => [
+                'type'              => 'string',
+                'description'       => "Name of the company.",
+                'required'          => true,
+            ],
+            'direction' => [
+                'type'              => 'string',
+                'description'       => "Direction of the company.",
+            ],
+            'creationdate' => [
+                'type'              => 'date',
+                'description'       => "Date of creation of the company.",
+                'default'           => time(),
+            ],
+            'phone' => [
+                'type'              => 'string',
+                'description'       => "Phone of the company.",
+                'usage'             => 'phone',
+            ],
+             // Each company can have employees
+            'employees_ids' => [
+                'type'              => 'one2many',
+                'foreign_object'    => 'projectFlow\Employee',
+                'foreign_field'     => 'company_id'
+            ]
+        ];
+    }
+
+}
+```
+
+### Client.class.php
+
+The `name` is mandatory and unique. The `isactive` is `true` by default
+
+### Project.class.php
+
+The `name` is  mandatory, the `startdate` is the current date by default , the `budget` is 1000 by default , the `status` has the options `['draft', 'approved','in_progress','cancelled','finished'] `
+
+### Employee.class.php
+
+The `firstname` and `lastname `are mandatories. The `salary `  is 1000 by default.
+
+The  `name` field ,it stores by the `firstname` and `lastname`, so you can find the `calcName` function  which returns the concatenation.
+
+Also, we need to add the  `dependencies` in the `firstname` and `lastname`
+
+### EmployeeProject.class.php
+
+The `hours` is mandatory,
+
+## Views
+
+By default view for `list` and `form` types should be defined for each entity. The cand find all the view in  `views` folder of the package `projectFlow`
+
+The generic filename format is: `{class_name}.{view_type}.{view_name}.json` .
+
+Here an example of a `list` and a `form` of Company.
+
+### Company
+
+#### Company.list.default.json
+
+```json
+{
+  "name": "Companies",
+  "description": "All information companies.",
+  "domain": [],
+  "order": "creationdate",
+  "layout": {
+    "items": [
+      {
+        "type": "field",
+        "value": "id",
+        "width": "25%"
+      },
+      {
+        "type": "field",
+        "value": "name",
+        "width": "25%"
+      },
+      {
+        "type": "field",
+        "value": "direction",
+        "width": "25%"
+      },
+      {
+        "type": "field",
+        "value": "creationdate",
+        "label": "Creation",
+        "width": "25%"
+      },
+      {
+        "type": "field",
+        "value": "phone",
+        "width": "25%"
+      }
+    ]
+  }
+}
+```
+
+#### Company.form.default.json
+
+The section `Employees` has been added to show the employees working in each company.
+
+### Client
+
+#### Client.list.default.json
+
+The result is sorted by `name` , with a `limit` of 10 par page
+
+#### Client.form.default.json
+
+The section `Projects`  has been added to show the projects that each client has.
+
+### Project
+
+#### Project.list.default.json
+
+The result is sorted by `startdate`  and shows the total project budgets
+
+#### Project.form.default.json
+
+The section `Employees` has been added to show the employees working in each project.
+
+### Employee
+
+#### Employee.list.default.json
+
+The result is sorted by `lastname` and `fistname`  and shows the total employees
+
+#### Employee.form.default.json
+### EmployeeProject
+
+#### EmployeeProject.list.default.json
+
+The result is group by  `employee`  and shows the total hours
+
+#### EmployeeProject.form.default.json
+
+## Menu
+
+See the `menu.app.left.json` file in `/views `.
+
+```json
+{
+  "name": "Project menu",
+  "access": {
+    "groups": [
+      "project.default.projectFlow"
+    ]
+  },
+  "layout": {
+    "items": [
+      {
+        "id": "project.project.test",
+        "label": "ProjectFlow",
+        "description": "",
+        "icon": "menu_book",
+        "type": "parent",
+        "children": [
+          {
+            "id": "project.project.company",
+            "type": "entry",
+            "label": "Companies",
+            "description": "",
+            "context": {
+              "entity": "projectFlow\\Company",
+              "view": "list.default"
+            }
+          }
+        ]
+      }
+    ]
+  }
+}
+```
+
+## Manifest
+
+See  `manifest.json`  file `/projectFlow`
+
+```json
+{
+  "name": "Project",
+  "version": "1.0",
+  "author": "Yesbabylon",
+  "depends_on": [
+    "core"
+  ],
+  "apps": [
+    {
+      "id": "project",
+      "name": "Project",
+      "extends": "app",
+      "description": "Applitation project flow",
+      "icon": "ad_units",
+      "color": "#3498DB",
+      "access": {
+        "groups": [
+          "users"
+        ]
+      },
+      "params": {
+        "menus": {
+          "left": "app.left"
+        }
+      }
+    }
+  ]
+}
+```
+
+### init_package
+
+```json
+$ ./equal.run --do=init_package --package=projectFlow
+```
+
+## Status project
+
+This is the status flow of the project
+
+<img src=".\img-english\StatusProject.drawio.png" alt="StatusProject.drawio" style="zoom:100%;" />
+
+
+
+See the method `getWorkflow` in the class `Project.class.php` that manages the project statuses. See the actions in the `form`call   `Project.form.default.json`
+
+Here is the example for the actions
+
+```json
+ [...]
+ "actions": [
+    {
+      "id": "action.draft",
+      "label": "Draft",
+      "description": "Draft project.",
+      "controller": "core_model_transition",
+      "visible": [
+        "status",
+        "=",
+        "approved"
+      ],
+      "confirm": true,
+      "params": {
+        "entity": "projectFlow\\Project",
+        "transition": "to_draft",
+        "ids": []
+      }
+    },
+	[...]
+ ]
+```
+
+You can see the status by Project.
+
+<img src=".\img-english\Status.png" alt="Status" style="zoom:67%;" />
+
+
+
+
+
+## Controller View List
+
+The `controller` property specifies the controller that is requested for fetching the `Model` collection that will show in the View.
+
+Example:
+
+```json
+"controller": "projectFlow_project-collect"
+```
+
+For controller `project-collect` a `project-collect.php` file in `/data` and a `project-collect.search.default.json` file in `view`.
+
+For this example, the search for projects is created by different parameters , so it is by `employee`,`status`,`min budget`,`max budget`, `client_id`, `date_from` and `date_to`.
+
+Here `project-collect.php` :
+
+```php
+<?php
+/*
+    This file is part of the Discope property management software.
+    Author: Yesbabylon SRL, 2020-2022
+    License: GNU AGPL 3 license <http://www.gnu.org/licenses/>
+*/
+
+use equal\orm\Domain;
+use projectFlow\Project;
+
+list($params, $providers) = eQual::announce([
+    'description'   => 'Advanced search for Reports: returns a collection of Reports according to extra paramaters.',
+    'extends'       => 'core_model_collect',
+    'params'        => [
+        'entity' =>  [
+            'description'   => 'name',
+            'type'          => 'string',
+            'default'       => 'projectFlow\Project'
+        ],
+        'employee_id' => [
+            'type'              => 'many2one',
+            'foreign_object'    => 'projectFlow\Employee',
+            'description'       => 'Employee of project to which the reports relate.'
+        ],
+        'status' => [
+            'type'              => 'string',
+            'selection'         => ['all','draft', 'approved','in_progress','cancelled','finished'],
+            'description'       => 'Projects with a specific status.'
+        ],
+        'budget_min' => [
+            'type'              => 'integer',
+            'description'       => 'Minimal budget for the project.'
+        ],
+        'budget_max' => [
+            'type'              => 'integer',
+            'description'       => 'Maximal budget for the project.'
+        ],
+        'client_id' => [
+            'type'              => 'many2one',
+            'foreign_object'    => 'projectFlow\Client',
+            'description'       => 'client of project to which the reports relate.'
+        ],
+        'date_from' => [
+            'type'          => 'date',
+            'description'   => "First date of the time interval.",
+            'default'       => strtotime("-10 Years")
+        ],
+        'date_to' => [
+            'type'          => 'date',
+            'description'   => "Last date of the time interval.",
+            'default'       => time()
+        ]
+    ],
+    'response'      => [
+        'content-type'  => 'application/json',
+        'charset'       => 'utf-8',
+        'accept-origin' => '*'
+    ],
+    'providers'     => [ 'context', 'orm' ]
+]);
+/**
+ * @var \equal\php\Context $context
+ * @var \equal\orm\ObjectManager $orm
+ */
+list($context, $orm) = [ $providers['context'], $providers['orm'] ];
+
+
+
+//   Add conditions to the domain to consider advanced parameters
+$domain = $params['domain'];
+
+//status
+if(isset($params['status']) && strlen($params['status']) > 0 && $params['status']!= 'all') {
+    $domain = Domain::conditionAdd($domain, ['status', '=', $params['status']]);
+}
+
+if(isset($params['budget_min']) && $params['budget_min'] > 0) {
+    $domain = Domain::conditionAdd($domain, ['budget', '>=', $params['budget_min']]);
+}
+
+if(isset($params['budget_max']) && $params['budget_max'] > 0) {
+    $domain = Domain::conditionAdd($domain, ['budget', '<=', $params['budget_max']]);
+}
+
+if(isset($params['client_id']) && $params['client_id'] > 0) {
+    $domain = Domain::conditionAdd($domain, ['client_id', '=', $params['client_id']]);
+}
+
+if(isset($params['date_from']) && $params['date_from'] > 0) {
+    $domain = Domain::conditionAdd($domain, ['startdate', '>=', $params['date_from']]);
+}
+
+if(isset($params['date_to']) && $params['date_to'] > 0) {
+    $domain = Domain::conditionAdd($domain, ['startdate', '<=', $params['date_to']]);
+}
+
+//   employee_id : filter on Project related employe
+if(isset($params['employee_id']) && $params['employee_id'] > 0) {
+    $projects_ids = [];
+    $projects_ids = Project::search(['employees_ids', 'contains', $params['employee_id']])->ids();
+    if(count($projects_ids)) {
+        $domain = Domain::conditionAdd($domain, ['id', 'in', $projects_ids]);
+    }
+}
+
+
+$params['domain'] = $domain;
+$result = eQual::run('get', 'model_collect', $params, true);
+
+$context->httpResponse()
+        ->body($result)
+        ->send();
+
 ```

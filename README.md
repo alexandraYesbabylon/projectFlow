@@ -56,9 +56,7 @@ projectFlow
 ├── manifest.json
 ```
 
-## 3.- Data Base
-
-### Initization data
+## 3.- Initization data
 
 Open`/data/init`,  you can see all the information that the database will have.
 
@@ -118,7 +116,7 @@ eQual expects an optional root config file in the `/config` directory.
     "ROOT_APP_URL": "http://equal.local"
 }
 ```
-**Initiate your package with initial data in DB**
+### Initiate your package with initial data in DB
 
 ```
 $ ./equal.run --do=init_package --package=projectFlow --import=true
@@ -126,7 +124,7 @@ $ ./equal.run --do=init_package --package=projectFlow --import=true
 You can see the tables created in  `equal`  data base. The names tables are `{{package_name}}_{{entity}}`
 You can see the all data, open the table `projectflow_client` with your prefect DBMS.
 
-**Consistency with Database**
+### Consistency with Database
 Performs consistency checks between DB and class as well as syntax validation for classes (PHP), views and translation files (JSON). Typing this command.
 
 ```

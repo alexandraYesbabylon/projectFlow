@@ -93,9 +93,9 @@ Here an example of  `projectflow_Company.json`
 
 
 
-## 3.- Configure
+## 3.- Configuration
 
-#### Config file
+### Config file
 
 eQual expects an optional root config file in the `/config` directory.
 
@@ -118,41 +118,29 @@ eQual expects an optional root config file in the `/config` directory.
     "ROOT_APP_URL": "http://equal.local"
 }
 ```
-
-
-
-#### Initiate your package with initial data in DB
+**Initiate your package with initial data in DB**
 
 ```
 $ ./equal.run --do=init_package --package=projectFlow --import=true
 ```
-
 You can see the tables created in  `equal`  data base. The names tables are `{{package_name}}_{{entity}}`
-
 You can see the all data, open the table `projectflow_client` with your prefect DBMS.
 
-
-#### Consistency with Database
-
+**Consistency with Database**
 Performs consistency checks between DB and class as well as syntax validation for classes (PHP), views and translation files (JSON). Typing this command.
 
 ```
 $ ./equal.run --do=test_package-consistency --package=projectFlow
+
 ```
-
-
-
 ## 4.- Authentication
-
 You need to create a account typing this command
 
 ```
 $ ./equal.run --do=model_create --entity=core\\User --fields[login]='project@example.com' --fields[password]='project'
 ```
 
-**Note: User must be validated to be able to connect**
-
-To validate user type this command. You need to know your id.
+**Note**: User must be validated to be able to connect. To validate user type this command but you need to know your id.
 
 ```
 $ ./equal.run --do=model_update --entity='core\User' --ids=3 --fields='{validated:true}'
@@ -218,36 +206,26 @@ class Company extends Model {
 }
 ```
 ### Client.class.php
-
 The `name` is mandatory and unique. The `isactive` is `true` by default
 
 ### Project.class.php
-
 The `name` is  mandatory, the `startdate` is the current date by default , the `budget` is 1000 by default , the `status` has the options `['draft', 'approved','in_progress','cancelled','finished'] `
 
 ### Employee.class.php
-
 The `firstname` and `lastname `are mandatories. The `salary `  is 1000 by default.
-
 The  `name` field ,it stores by the `firstname` and `lastname`, so you can find the `calcName` function  which returns the concatenation.
-
 Also, we need to add the  `dependencies` in the `firstname` and `lastname`
 
 ### EmployeeProject.class.php
-
 The `hours` is mandatory,
 
-## Views
+## 6.- Views
 
 By default view for `list` and `form` types should be defined for each entity. The cand find all the view in  `views` folder of the package `projectFlow`
-
 The generic filename format is: `{class_name}.{view_type}.{view_name}.json` .
-
 Here an example of a `list` and a `form` of Company.
 
-### Company
-
-#### Company.list.default.json
+**Company.list.default.json**
 
 ```json
 {
@@ -288,46 +266,24 @@ Here an example of a `list` and a `form` of Company.
 }
 ```
 
-#### Company.form.default.json
-
-The section `Employees` has been added to show the employees working in each company.
+**Company.form.default.json**: The section `Employees` has been added to show the employees working in each company.
 
 ### Client
-
-#### Client.list.default.json
-
-The result is sorted by `name` , with a `limit` of 10 par page
-
-#### Client.form.default.json
-
-The section `Projects`  has been added to show the projects that each client has.
+**Client.list.default.json**: The result is sorted by `name` , with a `limit` of 10 par page
+**Client.form.default.json**: The section `Projects`  has been added to show the projects that each client has.
 
 ### Project
-
-#### Project.list.default.json
-
-The result is sorted by `startdate`  and shows the total project budgets
-
-#### Project.form.default.json
-
-The section `Employees` has been added to show the employees working in each project.
+**Project.list.default.json**: The result is sorted by `startdate`  and shows the total project budgets.
+**Project.form.default.json**: The section `Employees` has been added to show the employees working in each project.
 
 ### Employee
+**Employee.list.default.json**: The result is sorted by `lastname` and `fistname`  and shows the total employees
 
-#### Employee.list.default.json
-
-The result is sorted by `lastname` and `fistname`  and shows the total employees
-
-#### Employee.form.default.json
 ### EmployeeProject
+**EmployeeProject.list.default.json**: The result is group by  `employee`  and shows the total hours
 
-#### EmployeeProject.list.default.json
 
-The result is group by  `employee`  and shows the total hours
-
-#### EmployeeProject.form.default.json
-
-## Menu
+## 7.- Menu
 
 See the `menu.app.left.json` file in `/views `.
 
@@ -365,7 +321,7 @@ See the `menu.app.left.json` file in `/views `.
 }
 ```
 
-## Manifest
+## 8.- Manifest
 
 See  `manifest.json`  file `/projectFlow`
 
@@ -400,13 +356,7 @@ See  `manifest.json`  file `/projectFlow`
 }
 ```
 
-### init_package
-
-```
-$ ./equal.run --do=init_package --package=projectFlow
-```
-
-## Status project
+## 9.- Status project
 
 This is the status flow of the project
 
@@ -414,9 +364,8 @@ This is the status flow of the project
 
 
 
-See the method `getWorkflow` in the class `Project.class.php` that manages the project statuses. See the actions in the `form`call   `Project.form.default.json`
-
-Here is the example for the actions
+See the method `getWorkflow` in the class `Project.class.php` that manages the project statuses. See the actions in the `form` call   `Project.form.default.json`.
+Here is the example for the actions/
 
 ```json
  "actions": [
@@ -440,8 +389,7 @@ Here is the example for the actions
  ]
 ```
 
-## Controller View List
-
+## 10.-  Controller View List
 The `controller` property specifies the controller that is requested for fetching the `Model` collection that will show in the View.
 
 Example:
@@ -449,13 +397,10 @@ Example:
 ```json
 "controller": "projectFlow_project-collect"
 ```
-
 For controller `project-collect` a `project-collect.php` file in `/data` and a `project-collect.search.default.json` file in `view`.
-
 For this example, the search for projects is created by different parameters , so it is by `employee`,`status`,`min budget`,`max budget`, `client_id`, `date_from` and `date_to`.
 
 Here `project-collect.php` :
-
 ```php
 <?php
 /*

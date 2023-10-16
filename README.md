@@ -12,7 +12,7 @@ ProjectFlow is an application built on top of the eQual Framework. It is designe
 
 Now, let's dive into the details of the eQual Framework and ProjectFlow application.
 
-**Model Entity relational**
+### Model Entity relational
 
 <img src=".\assets\img\DiagramModel.drawio.png" alt="DiagramModel.drawio" style="zoom:100%;" />
 

@@ -22,10 +22,11 @@ jobs:
       - run: git clone https://github.com/equalframework/equal.git
       - run: ls
       - run: cd equal
+      - run: cd /var/www/html/
       - run: git config --global --add safe.directory /var/www/html
-
+      - run: ls-l
       # create an empty database
-      - run: php run.php --do=init_db
+      #- run: php run.php --do=init_db
 
 # Orchestrate our job run sequence
 workflows:

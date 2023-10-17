@@ -19,20 +19,22 @@ jobs:
       - run: docker-php-ext-install pdo pdo_mysql mysqli zip
       - run: docker-php-ext-enable mysqli
       - run: git clone https://github.com/cedricfrancoys/equal.git
+      - run: git checkout dev-2.0
+      #- run: cd packages/
       - run: echo success
-      - checkout:
-          path: ~/repo
+      #- checkout:
+      #    path: ~/repo
 
       # check that mandatory directories are present and have correct access rights set
-      #- run: php run.php --do=test_fs-consistency
+      - run: php run.php --do=test_fs-consistency
       # check ability to connect to the dbms service
-      #- run: php run.php --do=test_db-connectivity
+      - run: php run.php --do=test_db-connectivity
       # create an empty database
-      #- run: php run.php --do=init_db
+      - run: php run.php --do=init_db
       # initialise database with demo data
-      #- run: php run.php --do=init_package --package=core --import=true
+      - run: php run.php --do=init_package --package=core --import=true
       # run test units
-      #- run: php run.php --do=test_package --package=core
+      - run: php run.php --do=test_package --package=core
 
 # Orchestrate our job run sequence
 workflows:

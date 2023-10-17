@@ -142,7 +142,6 @@ $tests = [
         },
         'expected' => 3
     ),
-
     '505'      => array(
         'description'       =>  'Search the project by a budget range.',
         'help'              =>  'The test uses data from the project, be sure to initialize the projectFlow package with your data.',

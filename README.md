@@ -279,12 +279,12 @@ Here's an example of both a list and a form view for the "Company" entity:
 **Client.list.default.json**:
 The results are sorted by the `name` field. Pagination is implemented with a `limit` of 10 entries per page.
 
-**Client.form.default.json**: In this form view, a new section called `Projects` has been added. This section displays the list of projects associated with each client, providing a comprehensive view of the client's projects.
+**Client.form.default.json**: In this form view, a new section called "Projects" has been added. This section displays the list of projects associated with each client, providing a comprehensive view of the client's projects.
 
 ### Project
 **Project.list.default.json**: The list of projects is sorted by the `startdate` field, and the view includes the total budgets for all projects.
 
-**Project.form.default.json**: This form view now includes a dedicated `Employees` section. This section provides information about the employees working on each project.
+**Project.form.default.json**: This form view now includes a dedicated "Employees" section. This section provides information about the employees working on each project.
 
 ### Employee
 **Employee.list.default.json**: The result is sorted by `lastname` and `fistname`  and shows the total employees

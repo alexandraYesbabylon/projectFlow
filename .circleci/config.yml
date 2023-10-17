@@ -10,28 +10,24 @@ jobs:
       environment:
         MYSQL_ROOT_PASSWORD: test
         MYSQL_DATABASE: equal
+        MYSQL_USER: root
 
-    working_directory: ~/repo
+    working_directory: /var/www/html
 
     steps:
       # install dependencies
+      - checkout
       - run: apt-get update && apt-get -y install git libzip-dev
       - run: docker-php-ext-install pdo pdo_mysql mysqli zip
       - run: docker-php-ext-enable mysqli
+      - run: php --version
       # clone equal
-      - run: git clone https://github.com/cedricfrancoys/equal.git
+      - run: git clone https://github.com/equalframework/equal.git
       - run: git config --global --add safe.directory /var/www/html
       - run: echo success
-      - run: php --version
 
-      # check ability to connect to the dbms service
-      #- run: php run.php --do=test_db-connectivity
       # create an empty database
-      #- run: php run.php --do=init_db
-      # initialise database with demo data
-      #- run: php run.php --do=init_package --package=core --import=true
-      # run test units
-      #- run: php run.php --do=test_package --package=core
+      - run: php run.php --do=init_db
 
 # Orchestrate our job run sequence
 workflows:

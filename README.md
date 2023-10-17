@@ -152,7 +152,7 @@ After completing these steps, go to http://equal.local/apps/, log in with your u
 
 ## 5.- Model definition
 
-Each model is defined in a `.class.php` file located in the `/packages/projectFlow/classes directory`. All classes inherit from a common ancestor: the Model class, which is declared in the `equal\orm` namespace and defined in `/lib/equal/orm/Model.class.php`.
+Each model is defined in a `.class.php` file located in the `/packages/projectFlow/classes` directory. All classes inherit from a common ancestor: the Model class, which is declared in the `equal\orm` namespace and defined in `/lib/equal/orm/Model.class.php`.
 
 In this context, a class is always referred to as an entity and belongs to a specific package. Packages and their subdirectories are used as namespaces with the format `package_name`.
 
@@ -162,7 +162,7 @@ The standard filename format for these class files is: `{class_name}.class.php`.
 
 The `creationdate` field is automatically set to the current date by default, so you can use `time()` to capture it.
 
-Feel free to continue with additional information or explanations about the `Company` class and its structure.
+Feel free to continue with additional information or explanations about the "Company" class and its structure.
 
 ```php
 <?php
@@ -230,7 +230,7 @@ For each entity, default views for both `list` and `form` types should be define
 
 The standard filename format for these views is: `{class_name}.{view_type}.{view_name}.json`.
 
-Here's an example of both a list and a form view for the `Company` entity:
+Here's an example of both a list and a form view for the "Company" entity:
 
 **Company.list.default.json**
 
@@ -333,7 +333,7 @@ See the `menu.app.left.json` file in `/views `.
 
 ## 8.- Manifest
 
-See  `manifest.json`  file `/projectFlow`
+See  `manifest.json`  file  in the `/projectFlow` directory.
 
 ```json
 {
@@ -366,16 +366,23 @@ See  `manifest.json`  file `/projectFlow`
 }
 ```
 
-## 9.- Status project
+## 9.- Project Status and Workflow
 
-This is the status flow of the project
+### Status Flow of the Project
+
+The project status flow is represented in the following image. It indicates the different states and transitions within the project life cycle.
 
 <img src=".\assets\img\StatusProject.drawio.png" alt="StatusProject.drawio" style="zoom:100%;" />
 
 
+### Managing Project Statuses
 
-See the method `getWorkflow` in the class `Project.class.php` that manages the project statuses. See the actions in the `form` call   `Project.form.default.json`.
-Here is the example for the actions/
+In the project management code, the 'getWorkflow' method within the `Project.class.php` class is responsible for handling project statuses. By reviewing this method, you can gain insight into how project statuses are managed and manipulated programmatically.
+
+### Project Form Actions
+
+The `Project.form.default.json` file defines the available actions related to projects. Below is an example of an action configuration:
+
 
 ```json
  "actions": [
@@ -399,16 +406,21 @@ Here is the example for the actions/
  ]
 ```
 
+This example demonstrates an action named 'Draft', which allows you to transition a project from the 'approved' status to the 'draft' status. The action is triggered via the `core_model_transition` controller, and it includes various parameters for effective project management.
+
 ## 10.-  Controller View List
-The `controller` property specifies the controller that is requested for fetching the `Model` collection that will show in the View.
+
+The controller property specifies the controller responsible for retrieving the model collection to be displayed in the view.
 
 Example:
 
 ```json
 "controller": "projectFlow_project-collect"
 ```
-For controller `project-collect` a `project-collect.php` file in `/data` and a `project-collect.search.default.json` file in `view`.
-For this example, the search for projects is created by different parameters , so it is by `employee`,`status`,`min budget`,`max budget`, `client_id`, `date_from` and `date_to`.
+The `project-collect` controller performs advanced project search, allowing users to filter and retrieve project collections based on multiple parameters.
+
+In the case of the `project-collect` controller, it corresponds to a `project-collect.php` file located in the `/data` directory and a `project-collect.search.default.json` file in the `/view` directory.
+
 
 Here `project-collect.php` :
 ```php
@@ -431,11 +443,6 @@ list($params, $providers) = eQual::announce([
             'type'          => 'string',
             'default'       => 'projectFlow\Project'
         ],
-        'employee_id' => [
-            'type'              => 'many2one',
-            'foreign_object'    => 'projectFlow\Employee',
-            'description'       => 'Employee of project to which the reports relate.'
-        ],
         'status' => [
             'type'              => 'string',
             'selection'         => ['all','draft', 'approved','in_progress','cancelled','finished'],
@@ -453,16 +460,6 @@ list($params, $providers) = eQual::announce([
             'type'              => 'many2one',
             'foreign_object'    => 'projectFlow\Client',
             'description'       => 'client of project to which the reports relate.'
-        ],
-        'date_from' => [
-            'type'          => 'date',
-            'description'   => "First date of the time interval.",
-            'default'       => strtotime("-10 Years")
-        ],
-        'date_to' => [
-            'type'          => 'date',
-            'description'   => "Last date of the time interval.",
-            'default'       => time()
         ]
     ],
     'response'      => [
@@ -499,24 +496,6 @@ if(isset($params['budget_max']) && $params['budget_max'] > 0) {
 if(isset($params['client_id']) && $params['client_id'] > 0) {
     $domain = Domain::conditionAdd($domain, ['client_id', '=', $params['client_id']]);
 }
-
-if(isset($params['date_from']) && $params['date_from'] > 0) {
-    $domain = Domain::conditionAdd($domain, ['startdate', '>=', $params['date_from']]);
-}
-
-if(isset($params['date_to']) && $params['date_to'] > 0) {
-    $domain = Domain::conditionAdd($domain, ['startdate', '<=', $params['date_to']]);
-}
-
-//   employee_id : filter on Project related employe
-if(isset($params['employee_id']) && $params['employee_id'] > 0) {
-    $projects_ids = [];
-    $projects_ids = Project::search(['employees_ids', 'contains', $params['employee_id']])->ids();
-    if(count($projects_ids)) {
-        $domain = Domain::conditionAdd($domain, ['id', 'in', $projects_ids]);
-    }
-}
-
 
 $params['domain'] = $domain;
 $result = eQual::run('get', 'model_collect', $params, true);

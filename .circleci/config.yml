@@ -22,6 +22,7 @@ jobs:
       - run: git clone https://github.com/equalframework/equal.git
       - run: git config --global --add safe.directory /var/www/html
       - run: ls
+      - run: cp equal /var/www/html/
 
       # create an empty database
       #- run: php run.php --do=init_db

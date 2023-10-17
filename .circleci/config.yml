@@ -24,7 +24,7 @@ jobs:
           path: ~/repo
 
       # check that mandatory directories are present and have correct access rights set
-      "- run: php run.php --do=test_fs-consistency
+      #- run: php run.php --do=test_fs-consistency
       # check ability to connect to the dbms service
       #- run: php run.php --do=test_db-connectivity
       # create an empty database

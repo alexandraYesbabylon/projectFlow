@@ -14,17 +14,32 @@ jobs:
     steps:
       # install dependencies
       - checkout
-      - run: apt-get update && apt-get -y install git libzip-dev
-      - run: docker-php-ext-install pdo pdo_mysql mysqli zip
-      - run: docker-php-ext-enable mysqli
+      - run:
+          name: Install things we need
+          command: |
+            sudo apt-get update && apt-get -y install git libzip-dev
+      - run:
+          name: Install PHP exts
+          command: |
+            sudo docker-php-ext-install pdo pdo_mysql mysqli zip
       - run: php --version
+      - run:
+          name: Waiting for MySQL to be ready
+          command: |
+            for i in `seq 1 30`;
+            do
+              nc -z 127.0.0.1 3306 && echo Success && exit 0
+              echo -n .
+              sleep 1
+            done
+            echo Failed waiting for MySQL && exit 1
       # clone equal
       - run: git clone https://github.com/equalframework/equal.git
       - run: git config --global --add safe.directory /var/www/html
       - run: echo success
 
       # create an empty database
-      - run: php run.php --do=init_db
+      #- run: php run.php --do=init_db
 
 # Orchestrate our job run sequence
 workflows:

@@ -20,10 +20,9 @@ jobs:
       - run: php --version
       # clone equal
       - run: git clone https://github.com/equalframework/equal.git
-      - run: cd equal
-      - run: cp -r * /var/www/html
+      - run: mv equal /var/www/html
       - run: cd /var/www/html
-      - run: ls
+      - run: ls -lah
       - run: git config --global --add safe.directory /var/www/html
       - run: ls
       # create an empty database

@@ -425,11 +425,6 @@ In the case of the `project-collect` controller, it corresponds to a `project-co
 Here `project-collect.php` :
 ```php
 <?php
-/*
-    This file is part of the Discope property management software.
-    Author: Yesbabylon SRL, 2020-2022
-    License: GNU AGPL 3 license <http://www.gnu.org/licenses/>
-*/
 
 use equal\orm\Domain;
 use projectFlow\Project;

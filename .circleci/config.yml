@@ -20,6 +20,7 @@ jobs:
       - run: php --version
       # clone equal
       - run: git clone https://github.com/equalframework/equal.git
+      - run: rm -rf /var/www/html
       - run: mv equal /var/www/html
       - run: cd /var/www/html
       - run: ls -lah /var/www/html

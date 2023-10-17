@@ -21,7 +21,7 @@ jobs:
       # clone equal
       - run: git clone https://github.com/equalframework/equal.git
       - run: ls
-      - run: cp ./equal /var/www/html/
+      - run: cp -r ./equal /var/www/html/
       - run: git config --global --add safe.directory /var/www/html
       - run: ls
       # create an empty database

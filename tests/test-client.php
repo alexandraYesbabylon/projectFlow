@@ -4,7 +4,6 @@
     Some Rights Reserved, Cedric Francoys, 2010-2021
     Licensed under GNU GPL 3 license <http://www.gnu.org/licenses/>
 */
-
 use projectFlow\Client;
 
 $providers = eQual::inject(['context', 'orm', 'auth', 'access']);

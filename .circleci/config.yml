@@ -24,7 +24,7 @@ jobs:
       - run: cd equal
       - run: cd /var/www/html/
       - run: git config --global --add safe.directory /var/www/html
-      - run: ls-l
+      - run: ls
       # create an empty database
       #- run: php run.php --do=init_db
 

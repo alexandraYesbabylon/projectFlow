@@ -22,6 +22,7 @@ jobs:
       - run: git clone https://github.com/cedricfrancoys/equal.git
       - run: git config --global --add safe.directory /var/www/html
       - run: echo success
+      - run: php echo 'Current PHP version: ' . phpversion();
 
       # check ability to connect to the dbms service
       - run: php run.php --do=test_db-connectivity

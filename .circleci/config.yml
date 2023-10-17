@@ -10,9 +10,6 @@ jobs:
       environment:
         MYSQL_ROOT_PASSWORD: test
         MYSQL_DATABASE: equal
-        MYSQL_USER: root
-
-    working_directory: /var/www/html
 
     steps:
       # install dependencies

@@ -44,7 +44,10 @@ jobs:
           command: php run.php --do=test_package --package=core
       - run: ls -lah
       - run: mkdir projectFlow
+      - run: ls -lah
       - run: git clone https://github.com/alexandraYesbabylon/projectFlow.git projectFlow
+      - run: ls -lah
+      - run: ls -lah projectFlow
       - run: mv projectFlow /packages
       - run: ls -lah packages
       - run: ls -lah

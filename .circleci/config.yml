@@ -24,7 +24,7 @@ jobs:
       - run: cp -r equal /var/www/html
       - run: cd /var/www/html
       - run: ls -lah /var/www/html
-      - run: php run.php --do=init_db
+      - run: php run.php --do=test_fs-consistency
         # clone equal
 
 # Orchestrate our job run sequence

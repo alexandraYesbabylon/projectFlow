@@ -1,4 +1,5 @@
 
+[![Build Status](https://circleci.com/gh/alexandraYesbabylon/projectFlow.svg?style=shield)](https://circleci.com/gh/alexandraYesbabylon/projectFlow)
 [![eQual](https://img.shields.io/badge/framework-eQualFramework-brightgreen)](https://github.com/equalframework/equal)
 [![Maintainer](https://img.shields.io/badge/maintainer-alexandraYesbabylon-blue)](https://github.com/alexandraYesbabylon)
 

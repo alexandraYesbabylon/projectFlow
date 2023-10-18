@@ -58,11 +58,8 @@ jobs:
           name: Install MariaDb Client
           command: |
             apt-get -y install mariadb-client
-      - run:
-          name: Execute SQL Queries
-          command: |
-            mysql SELECT VERSION;
-            mysql SHOW TABLES;
+      - run: mysql --version;
+      - run: mysql SHOW TABLES;
       #- run:
       #    name: Initializing projectFlow package with Demo Data
       #    command: php run.php --do=init_package --package=projectFlow

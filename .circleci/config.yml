@@ -13,34 +13,36 @@ jobs:
     steps:
       - checkout
       - run:
-          name: Instalar dependencias y configurar PHP
+          name: Install dependencies
           command: |
             apt-get update && apt-get -y install git libzip-dev
             docker-php-ext-install pdo pdo_mysql mysqli zip
             docker-php-ext-enable mysqli
-            php --version
       - run:
-          name: Clonar el repositorio
+          name: Clone equal repository
           command: git clone https://github.com/equalframework/equal.git
       - run:
-          name: Copiar archivos al directorio de trabajo
+          name: Copy files to the working directory
           command: cp -r equal/* /var/www/html/
       - run:
-          name: Listar archivos en el directorio de trabajo
-          command: ls -lah
-      - run:
-          name: Establecer permisos para "run.php"
+          name: Set permissions for 'run.php'
           command: chmod 755 run.php
-      # check that mandatory directories are present and have correct access rights set
-      - run: php run.php --do=test_fs-consistency
-      # check ability to connect to the dbms service
-      - run: php run.php --do=test_db-connectivity
-      # create an empty database
-      - run: php run.php --do=init_db
-      # initialise database with demo data
-      - run: php run.php --do=init_package --package=core --import=true
-      # run test units
-      - run: php run.php --do=test_package --package=core
+      - run:
+          name: Verify the presence and correct Access Rights of mandatory directories
+          command: php run.php --do=test_fs-consistency
+      - run:
+          name: Verifying the Connectivity to the DBMS Service
+          command: php run.php --do=test_db-connectivity
+      - run:
+          name: Creating an Empty Database
+          command: php run.php --do=init_db
+      - run:
+          name: Initializing package Core with Demo Data
+          command: php run.php --do=init_package --package=core --import=true
+      - run:
+          name: Running Test Units for the Core Package
+          command: php run.php --do=test_package --package=core
+
 # Orchestrate our job run sequence
 workflows:
   build_and_test:

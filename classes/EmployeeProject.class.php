@@ -6,7 +6,7 @@ class EmployeeProject extends Model {
 
     public static function getColumns() {
         return [
-            /*'project_id' => [
+            'project_id' => [
                 'type'           => 'many2one',
                 'foreign_object' => 'projectFlow\Project',
                 'ondelete'          => 'cascade',
@@ -17,7 +17,7 @@ class EmployeeProject extends Model {
                 'foreign_object' => 'projectFlow\Employee',
                 'ondelete'          => 'cascade',
             ],
-            */
+
             'hours' => [
                 'type'           => 'float',
                 'required'       => true,

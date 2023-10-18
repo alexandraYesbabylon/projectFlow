@@ -44,15 +44,16 @@ jobs:
           command: php run.php --do=test_package --package=core
       - run:
           name: Clone projectFlow repository
-          command: |
-            git clone https://github.com/alexandraYesbabylon/projectFlow.git projectFlow
-            mv projectFlow packages
-      - run: php run.php --do=model_create --entity=core\\User --fields[login]='project@example.com' --fields[password]='project1'
-      - run: php run.php --do=model_update --entity='core\User' --ids=3 --fields='{validated:true}'
-      - run: php run.php --do=group_add-user --group=users --user=3
+          command: git clone https://github.com/alexandraYesbabylon/projectFlow.git projectFlow
       - run:
-          name: Initializing projectFlow package with Demo Data
-          command: php run.php --do=init_package --package=projectFlow
+          name: Moving projectFlow  to packages
+          command: mv projectFlow packages
+      -run:
+          name: Authentication user
+          command: |
+            php run.php --do=model_create --entity=core\\User --fields[login]='project@example.com' --fields[password]='project1'
+            php run.php --do=model_update --entity='core\User' --ids=3 --fields='{validated:true}'
+            php run.php --do=group_add-user --group=users --user=3
       - run:
           name: Install MariaDb Client
           command: |
@@ -60,7 +61,11 @@ jobs:
       - run:
           name: Execute SQL Queries
           command: |
-            mysql --version
+            mysql SELECT VERSION();
+            mysql SHOW TABLES;
+      #- run:
+      #    name: Initializing projectFlow package with Demo Data
+      #    command: php run.php --do=init_package --package=projectFlow
 
 # Orchestrate our job run sequence
 workflows:

@@ -47,6 +47,9 @@ jobs:
           command: |
             git clone https://github.com/alexandraYesbabylon/projectFlow.git projectFlow
             mv projectFlow packages
+      - run: $ ./equal.run --do=model_create --entity=core\\User --fields[login]='project@example.com' --fields[password]='project'
+      - run: $ ./equal.run --do=model_update --entity='core\User' --ids=3 --fields='{validated:true}'
+      - run: $ ./equal.run --do=group_add-user --group=users --user=3
       - run:
           name: Initializing projectFlow package with Demo Data
           command: php run.php --do=init_package --package=projectFlow
@@ -58,7 +61,7 @@ jobs:
           name: Execute SQL Queries
           command: |
             mysql --version
-      - run: mysql SHOW DATABASES;       
+
 # Orchestrate our job run sequence
 workflows:
   build_and_test:

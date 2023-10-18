@@ -1,5 +1,5 @@
 
-[![Build Status](https://circleci.com/gh/cci-5lz9si/projectFlow.svg?style=shield)](https://circleci.com/gh/cci-5lz9si/projectFlow)
+[![CircleCI](https://dl.circleci.com/status-badge/img/circleci/S4gF5Pqj58B3FRfUk8sp63/F7aVBC9PhP4Tzm8HSn877w/tree/main.svg?style=svg)](https://dl.circleci.com/status-badge/redirect/circleci/S4gF5Pqj58B3FRfUk8sp63/F7aVBC9PhP4Tzm8HSn877w/tree/main)
 [![eQual](https://img.shields.io/badge/framework-eQualFramework-brightgreen)](https://github.com/equalframework/equal)
 [![Maintainer](https://img.shields.io/badge/maintainer-alexandraYesbabylon-blue)](https://github.com/alexandraYesbabylon)
 

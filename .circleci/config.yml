@@ -47,7 +47,7 @@ jobs:
           command: |
             git clone https://github.com/alexandraYesbabylon/projectFlow.git projectFlow
             mv projectFlow packages
-      - run: php run.php --do=model_create --entity=core\\User --fields[login]='project@example.com' --fields[password]='project'
+      - run: php run.php --do=model_create --entity=core\\User --fields[login]='project@example.com' --fields[password]='project1'
       - run: php run.php --do=model_update --entity='core\User' --ids=3 --fields='{validated:true}'
       - run: php run.php --do=group_add-user --group=users --user=3
       - run:

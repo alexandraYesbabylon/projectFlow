@@ -10,7 +10,6 @@ jobs:
       environment:
         MYSQL_ROOT_PASSWORD: test
         MYSQL_DATABASE: equal
-
     steps:
       # install dependencies
       - run: apt-get update && apt-get -y install git libzip-dev
@@ -20,11 +19,21 @@ jobs:
       - run: git clone https://github.com/equalframework/equal.git
       - run: rm -rf /var/www/html
       - run: mv equal /var/www/html
-      - run: cd /var/www/html
-      - run: ls -lah /var/www/html
-      - run: chmod 755 /var/www/html/run.php
-      - run: ls -lah /var/www/html
-      - run: php /var/www/html/run.php --do=test_fs-consistency
+      #- run: cd /var/www/html
+      - run:
+          name: Configurar directorio de trabajo
+          command: cd /var/www/html
+      - run:
+          name: Ejecutar comandos en el directorio de trabajo
+          command: |
+            ls -lah
+            chmod 755 run.php
+            php run.php --do=test_fs-consistency
+
+      #- run: ls -lah /var/www/html
+      #- run: chmod 755 /var/www/html/run.php
+      #- run: ls -lah /var/www/html
+      #- run: php /var/www/html/run.php --do=test_fs-consistency
         # clone equal
 
 # Orchestrate our job run sequence

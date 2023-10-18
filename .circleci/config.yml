@@ -6,26 +6,24 @@ jobs:
     docker:
     - image: php:7.4-apache
 
-    - image: mysql:8.0
+    - image: mysql:5.7
       environment:
         MYSQL_ROOT_PASSWORD: test
         MYSQL_DATABASE: equal
 
-    working_directory: /var/www/html
+#    working_directory: /var/www/html
 
     steps:
       # install dependencies
-      - checkout
       - run: apt-get update && apt-get -y install git libzip-dev
       - run: docker-php-ext-install pdo pdo_mysql mysqli zip
       - run: docker-php-ext-enable mysqli
       - run: php --version
       - run: git clone https://github.com/equalframework/equal.git
-      #- run: rm -rf /var/www/html
-      #- run: mv equal /var/www/html
-      #- run: cd /var/www/html
-      #- run: ls -lah /var/www/html
-      - run: cp -rf equal /var/www/html/
+      - run: rm -rf /var/www/html
+      - run: cp equal /var/www/html
+      - run: cd /var/www/html
+      - run: ls -lah /var/www/html
       #- run: php run.php --do=init_db
         # clone equal
 

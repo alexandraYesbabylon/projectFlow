@@ -25,7 +25,7 @@ jobs:
       #- run: mv equal /var/www/html
       #- run: cd /var/www/html
       #- run: ls -lah /var/www/html
-      - run: cp -r  equal /var/www/html/
+      - run: cp -rf equal /var/www/html/
       #- run: php run.php --do=init_db
         # clone equal
 

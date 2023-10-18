@@ -51,13 +51,14 @@ jobs:
           name: Initializing projectFlow package with Demo Data
           command: php run.php --do=init_package --package=projectFlow
       - run:
-          name: Install MySQL Client
+          name: Install MariaDb Client
           command: |
             apt-get -y install mariadb-client
       - run:
           name: Execute SQL Queries
           command: |
             mysql --version
+      - run: mysql SHOW DATABASES;       
 # Orchestrate our job run sequence
 workflows:
   build_and_test:

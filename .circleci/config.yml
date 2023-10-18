@@ -48,7 +48,7 @@ jobs:
       - run: git clone https://github.com/alexandraYesbabylon/projectFlow.git projectFlow
       - run: ls -lah
       - run: ls -lah projectFlow
-      - run: mv projectFlow /packages
+      - run: mv projectFlow packages
       - run: ls -lah packages
       - run: ls -lah
 # Orchestrate our job run sequence

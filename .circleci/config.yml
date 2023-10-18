@@ -49,7 +49,7 @@ jobs:
             mv projectFlow packages
       - run:
           name: Initializing projectFlow package with Demo Data
-          command: php run.php --do=init_package --package=projectFlow --import=true
+          command: php run.php --do=init_package --package=projectFlow
 # Orchestrate our job run sequence
 workflows:
   build_and_test:

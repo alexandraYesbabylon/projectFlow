@@ -27,7 +27,14 @@ jobs:
       - run:
           name: Copiar archivos al directorio de trabajo
           command: cp -r equal/* /var/www/html/
-
+      # Listar archivos en el directorio de trabajo
+      - run:
+          name: Listar archivos en el directorio de trabajo
+          command: ls -lah
+      # Establecer permisos para el archivo "run.php"
+      - run:
+          name: Establecer permisos para "run.php"
+          command: chmod 755 run.php
 # Orchestrate our job run sequence
 workflows:
   build_and_test:

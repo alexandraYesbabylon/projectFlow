@@ -25,9 +25,9 @@ jobs:
       - run: cd /var/www/html
       - run: ls -lah /var/www/html
       - run: git config --global --add safe.directory /var/www/html
-      - run: ls
+      - run: git branch
       # create an empty database
-      - run: php run.php --do=init_db
+      #- run: php run.php --do=init_db
 
 # Orchestrate our job run sequence
 workflows:

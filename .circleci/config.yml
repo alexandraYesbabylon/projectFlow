@@ -21,7 +21,7 @@ jobs:
       - run: php --version
       - run: git clone https://github.com/equalframework/equal.git
       - run: rm -rf /var/www/html
-      - run: cp -r equal /var/www/html
+      - run: mv equal /var/www/html
       - run: cd /var/www/html
       - run: ls -lah /var/www/html
       - run: chmod 755 run.php

@@ -37,20 +37,20 @@ jobs:
           name: Creating an Empty Database
           command: php run.php --do=init_db
       - run:
-          name: Initializing package Core with Demo Data
+          name: Initializing Core package  with Demo Data
           command: php run.php --do=init_package --package=core --import=true
       - run:
           name: Running Test Units for the Core Package
           command: php run.php --do=test_package --package=core
-      - run: ls -lah
-      - run: mkdir projectFlow
-      - run: ls -lah
-      - run: git clone https://github.com/alexandraYesbabylon/projectFlow.git projectFlow
-      - run: ls -lah
-      - run: ls -lah projectFlow
-      - run: mv projectFlow packages
-      - run: ls -lah packages
-      - run: ls -lah
+      - run:
+          name: Clone projectFlow repository
+          command: |
+            mkdir projectFlow
+            git clone https://github.com/alexandraYesbabylon/projectFlow.git projectFlow
+            mv projectFlow packages
+      - run:
+          name: Initializing projectFlow package with Demo Data
+          command: php run.php --do=init_package --package=projectFlow --import=true
 # Orchestrate our job run sequence
 workflows:
   build_and_test:

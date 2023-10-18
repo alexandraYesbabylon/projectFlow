@@ -61,8 +61,8 @@ jobs:
       - run:
           name: Execute SQL Queries
           command: |
-            mysql SELECT VERSION()
-            mysql SHOW TABLES
+            mysql SELECT VERSION();
+            mysql SHOW TABLES;
       #- run:
       #    name: Initializing projectFlow package with Demo Data
       #    command: php run.php --do=init_package --package=projectFlow

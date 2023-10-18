@@ -24,7 +24,7 @@ jobs:
       - run: mv equal /var/www/html
       - run: cd /var/www/html
       - run: ls -lah /var/www/html
-      - run: chmod 755 run.php
+      - run: sudo chmod 755 run.php
       - run: ls -lah /var/www/html
       #- run: php run.php --do=test_fs-consistency
         # clone equal

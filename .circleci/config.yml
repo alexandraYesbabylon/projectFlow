@@ -6,17 +6,13 @@ jobs:
     docker:
     - image: php:7.4-apache
 
-    - image: mysql:5.7
+    - image: mysql:8.0
       environment:
         MYSQL_ROOT_PASSWORD: test
         MYSQL_DATABASE: equal
 
-    - image: equalframework/equal
-      environment:
-        EQ_DB_HOST: equal_db
-        EQ_DB_USER: root
-        EQ_DB_PASS: test
-        EQ_DB_NAME: equal
+    working_directory: /var/www/html
+
     steps:
       # install dependencies
       - checkout
@@ -24,15 +20,19 @@ jobs:
       - run: docker-php-ext-install pdo pdo_mysql mysqli zip
       - run: docker-php-ext-enable mysqli
       - run: php --version
-    
-      # create an empty database
-      - run: php run.php --do=init_db
-        # clone equal
-      #- run: git clone https://github.com/equalframework/equal.git
+      - run: git clone https://github.com/equalframework/equal.git
       #- run: rm -rf /var/www/html
       #- run: mv equal /var/www/html
       #- run: cd /var/www/html
       #- run: ls -lah /var/www/html
+      - run: mv ./equal/packages/ ./equal/packages-core
+      - run: mv ./packages ./equal/
+      - run: cp -r ./equal/packages-core/* ./equal/packages/
+      - run: rm -rf ./equal/packages-core
+      - run: - mv ./equal/* ./
+      #- run: php run.php --do=init_db
+        # clone equal
+
 # Orchestrate our job run sequence
 workflows:
   build_and_test:

@@ -61,7 +61,6 @@ jobs:
       - run: php run.php --do=init_package --package=projectFlow
       - run: echo "show tables;" > test.sql
       - run: ls -lah
-      - run: nano test.sql
       #- run: mysql ALTER TABLE `projectflow_employeeproject` ADD COLUMN `project_id` int(11) NOT NULL;
 # Orchestrate our job run sequence
 workflows:

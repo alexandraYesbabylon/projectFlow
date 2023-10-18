@@ -50,9 +50,24 @@ jobs:
       - run:
           name: Initializing projectFlow package with Demo Data
           command: php run.php --do=init_package --package=projectFlow
+          
+      - setup_remote_docker:  # Inicia un contenedor Docker para ejecutar comandos de MySQL
+          docker_layer_caching: true
+
+      - run:
+          name: Wait for MySQL to Start
+          command: |
+            for i in {1..30}; do
+              if docker ps | grep mysql; then
+                break
+              fi
+              sleep 10
+            done
+
       - run:
           name: Check MySQL Version
-          command: docker exec -i mysql mysql --version    
+          command: |
+            docker exec -i mysql mysql --version
 # Orchestrate our job run sequence
 workflows:
   build_and_test:

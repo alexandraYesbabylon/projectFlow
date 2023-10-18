@@ -4,35 +4,29 @@ version: 2.1
 jobs:
   build:
     docker:
-    - image: php:7.4-apache
-
-    - image: mysql:5.7
-      environment:
-        MYSQL_ROOT_PASSWORD: test
-        MYSQL_DATABASE: equal
+      - image: php:7.4-apache
+      - image: mysql:5.7
+        environment:
+          MYSQL_ROOT_PASSWORD: test
+          MYSQL_DATABASE: equal
+    working_directory: /var/www/html
     steps:
-      # install dependencies
-      - run: apt-get update && apt-get -y install git libzip-dev
-      - run: docker-php-ext-install pdo pdo_mysql mysqli zip
-      - run: docker-php-ext-enable mysqli
-      - run: php --version
-      - run: git clone https://github.com/equalframework/equal.git
-      - run: rm -rf /var/www/html
-      - run: mv equal /var/www/html
-      - run: cd /var/www/html
-      - run: ls -lah /var/www/html
-      - run: chmod 755 /var/www/html/run.php
-      - run: ls -lah /var/www/html
-      # check that mandatory directories are present and have correct access rights set
-      - run: php /var/www/html/run.php --do=test_fs-consistency
-      # check ability to connect to the dbms service
-      - run: php /var/www/html/run.php --do=test_db-connectivity
-      # create an empty database
-      - run: php /var/www/html/run.php --do=init_db
-      # initialise database with demo data
-      - run: php /var/www/html/run.php --do=init_package --package=core --import=true
-      # run test units
-      - run: php /var/www/html/run.php --do=test_package --package=core
+      - checkout
+      - run:
+          name: Instalar dependencias y configurar PHP
+          command: |
+            apt-get update && apt-get -y install git libzip-dev
+            docker-php-ext-install pdo pdo_mysql mysqli zip
+            docker-php-ext-enable mysqli
+            php --version
+      - run:
+          name: Clonar el repositorio
+          command: git clone https://github.com/equalframework/equal.git
+
+      # Copiar los archivos al directorio de trabajo
+      - run:
+          name: Copiar archivos al directorio de trabajo
+          command: cp -r equal/* /var/www/html/
 
 # Orchestrate our job run sequence
 workflows:

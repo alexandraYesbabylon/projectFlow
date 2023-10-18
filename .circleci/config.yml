@@ -51,9 +51,9 @@ jobs:
           name: Initializing projectFlow package with Demo Data
           command: php run.php --do=init_package --package=projectFlow
       - run:
-          name: Deploy Database Changes
+          name: Check MySQL Version
           command: |
-            mysql --version   
+            docker exec -i mysql mysql --version
 # Orchestrate our job run sequence
 workflows:
   build_and_test:

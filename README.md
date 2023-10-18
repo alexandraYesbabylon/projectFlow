@@ -3,7 +3,6 @@
 [![eQual](https://img.shields.io/badge/framework-eQualFramework-brightgreen)](https://github.com/equalframework/equal)
 [![Maintainer](https://img.shields.io/badge/maintainer-alexandraYesbabylon-blue)](https://github.com/alexandraYesbabylon)
 
-
 # eQual Framework and ProjectFlow Application Documentation
 
 Welcome to the documentation for the eQual Framework and the ProjectFlow application. This document will guide you through the setup and usage of the eQual Framework, as well as the specific features and components of the ProjectFlow application.

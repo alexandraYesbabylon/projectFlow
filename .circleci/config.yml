@@ -11,8 +11,6 @@ jobs:
         MYSQL_ROOT_PASSWORD: test
         MYSQL_DATABASE: equal
 
-    working_directory: /var/www/html
-
     steps:
       # install dependencies
       - run: apt-get update && apt-get -y install git libzip-dev
@@ -26,7 +24,7 @@ jobs:
       - run: ls -lah /var/www/html
       - run: chmod 755 /var/www/html/run.php
       - run: ls -lah /var/www/html
-      - run: php run.php --do=test_fs-consistency
+      - run: php /var/www/html/run.php --do=test_fs-consistency
         # clone equal
 
 # Orchestrate our job run sequence

@@ -11,7 +11,7 @@ jobs:
         MYSQL_ROOT_PASSWORD: test
         MYSQL_DATABASE: equal
 
-#    working_directory: /var/www/html
+    working_directory: /var/www/html
 
     steps:
       # install dependencies

@@ -26,7 +26,6 @@ jobs:
       #- run: cd /var/www/html
       #- run: ls -lah /var/www/html
       - run: mv ./equal/packages/ ./equal/packages-core
-      - run: mv ./packages ./equal/
       - run: cp -r ./equal/packages-core/* ./equal/packages/
       - run: rm -rf ./equal/packages-core
       - run: mv ./equal/* ./

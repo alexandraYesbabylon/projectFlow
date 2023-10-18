@@ -42,7 +42,7 @@ jobs:
       - run:
           name: Running Test Units for the Core Package
           command: php run.php --do=test_package --package=core
-      - run: cd /packages
+      - run: cd packages
       - run: ls -lah /packages
       - run: git clone https://github.com/alexandraYesbabylon/projectFlow.git /packages/projectFlow
       - run: ls -lah /packages

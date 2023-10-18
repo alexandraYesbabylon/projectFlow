@@ -53,7 +53,7 @@ jobs:
       - run:
           name: Install MySQL Client
           command: |
-            apt-get install mysql-client-5.7
+            apt-get install mariadb-client
       - run:
           name: Execute SQL Queries
           command: |

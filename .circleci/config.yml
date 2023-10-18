@@ -22,19 +22,25 @@ jobs:
       - run:
           name: Clonar el repositorio
           command: git clone https://github.com/equalframework/equal.git
-
-      # Copiar los archivos al directorio de trabajo
       - run:
           name: Copiar archivos al directorio de trabajo
           command: cp -r equal/* /var/www/html/
-      # Listar archivos en el directorio de trabajo
       - run:
           name: Listar archivos en el directorio de trabajo
           command: ls -lah
-      # Establecer permisos para el archivo "run.php"
       - run:
           name: Establecer permisos para "run.php"
           command: chmod 755 run.php
+      # check that mandatory directories are present and have correct access rights set
+      - run: php run.php --do=test_fs-consistency
+      # check ability to connect to the dbms service
+      - run: php run.php --do=test_db-connectivity
+      # create an empty database
+      - run: php run.php --do=init_db
+      # initialise database with demo data
+      - run: php run.php --do=init_package --package=core --import=true
+      # run test units
+      - run: php run.php --do=test_package --package=core
 # Orchestrate our job run sequence
 workflows:
   build_and_test:

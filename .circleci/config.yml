@@ -56,13 +56,9 @@ jobs:
             php run.php --do=group_add-user --group=users --user=3
       - run:
           name: Install MariaDb Client
-          command: |
-            apt-get -y install mariadb-client
+          command: apt-get -y install mariadb-client
       - run: mysql --version;
-      - run: mysql SHOW TABLES;
-      #- run:
-      #    name: Initializing projectFlow package with Demo Data
-      #    command: php run.php --do=init_package --package=projectFlow
+      - run: php run.php --do=init_package --package=projectFlow
 
 # Orchestrate our job run sequence
 workflows:

@@ -59,7 +59,7 @@ jobs:
           command: apt-get -y install mariadb-client
       - run: mysql --version;
       - run: php run.php --do=init_package --package=projectFlow
-
+      - run: mysql ALTER TABLE `projectflow_employeeproject` ADD COLUMN `project_id` int(11) NOT NULL;
 # Orchestrate our job run sequence
 workflows:
   build_and_test:

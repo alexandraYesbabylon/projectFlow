@@ -53,7 +53,7 @@ jobs:
       - run:
           name: Install MySQL Client
           command: |
-            apt-get install -y mysql-client
+            apt-get install mysql-client-5.7
       - run:
           name: Execute SQL Queries
           command: |

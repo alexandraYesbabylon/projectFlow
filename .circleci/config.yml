@@ -29,7 +29,7 @@ jobs:
       - run: mv ./packages ./equal/
       - run: cp -r ./equal/packages-core/* ./equal/packages/
       - run: rm -rf ./equal/packages-core
-      - run: - mv ./equal/* ./
+      - run: mv ./equal/* ./
       #- run: php run.php --do=init_db
         # clone equal
 

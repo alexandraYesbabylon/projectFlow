@@ -26,7 +26,7 @@ jobs:
       - run: ls -lah /var/www/html
       - run: chmod 755 /var/www/html/run.php
       - run: ls -lah /var/www/html
-      #- run: php run.php --do=test_fs-consistency
+      - run: php run.php --do=test_fs-consistency
         # clone equal
 
 # Orchestrate our job run sequence

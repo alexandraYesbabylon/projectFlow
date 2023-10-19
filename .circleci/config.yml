@@ -11,7 +11,6 @@ jobs:
           MYSQL_DATABASE: equal
     working_directory: /var/www/html
     steps:
-      #- checkout
       - run:
           name: Install dependencies
           command: |
@@ -25,13 +24,16 @@ jobs:
           name: List Branches
           command: git ls-remote --heads https://github.com/equalframework/equal.git
       - run:
-          name: Copy files to the working directory
-          command: cp -r equal/* /var/www/html/
-      - run: git config --global --add safe.directory /var/www/html
+          name: Change to Repository Directory
+          command: cd equal
       - run: git branch
       - run: git fetch --all
       - run: git branch
       - run: git checkout dev-2.0
+      - run:
+          name: Copy files to the working directory
+          command: cp -r equal/* /var/www/html/
+      - run: git config --global --add safe.directory /var/www/html
       - run:
           name: Set permissions for 'run.php'
           command: chmod 755 run.php

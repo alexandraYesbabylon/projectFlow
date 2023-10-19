@@ -23,9 +23,8 @@ jobs:
       - run:
           name: List Branches
           command: git ls-remote --heads https://github.com/equalframework/equal.git
-      - run:
-          name: Change to Repository Directory
-          command: cd equal
+      - run: cd equal
+      - run: ls -lah
       - run: git branch
       - run: git fetch --all
       - run: git branch

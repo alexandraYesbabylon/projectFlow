@@ -23,6 +23,7 @@ jobs:
       - run:
           name: List Branches
           command: git ls-remote --heads https://github.com/equalframework/equal.git
+      - run: git config --global --add safe.directory /var/www/html
       - run: cd equal
       - run: ls -lah
       - run: git branch
@@ -32,7 +33,6 @@ jobs:
       - run:
           name: Copy files to the working directory
           command: cp -r equal/* /var/www/html/
-      - run: git config --global --add safe.directory /var/www/html
       - run:
           name: Set permissions for 'run.php'
           command: chmod 755 run.php

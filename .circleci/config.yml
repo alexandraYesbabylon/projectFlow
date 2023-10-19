@@ -11,7 +11,7 @@ jobs:
           MYSQL_DATABASE: equal
     working_directory: /var/www/html
     steps:
-      - checkout
+      #- checkout
       - run:
           name: Install dependencies
           command: |

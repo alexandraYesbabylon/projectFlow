@@ -23,14 +23,7 @@ jobs:
       - run:
           name: List Branches
           command: git ls-remote --heads https://github.com/equalframework/equal.git
-      - run: git config --global --add safe.directory /var/www/html
-      - run: ls -lah
-      - run: cd equal
-      - run: ls -lah
-      - run: git branch
-      - run: git fetch --all
-      - run: git branch
-      - run: git checkout dev-2.0
+      #- run: git config --global --add safe.directory /var/www/html
       - run:
           name: Copy files to the working directory
           command: cp -r equal/* /var/www/html/
@@ -58,6 +51,7 @@ jobs:
       - run:
           name: Moving projectFlow  to packages
           command: mv projectFlow packages
+      - run: php run.php --do=init_package --package=projectFlow
       - run:
           name: Creating User
           command: php run.php --do=model_create --entity=core\\User --fields[login]='project@example.com' --fields[password]='project1'
@@ -71,7 +65,6 @@ jobs:
           name: Install MariaDb Client
           command: apt-get -y install mariadb-client
       - run: mysql --version;
-      #- run: php run.php --do=init_package --package=projectFlow
       - run: ls -lah
 
 # Orchestrate our job run sequence

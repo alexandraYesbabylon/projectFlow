@@ -21,6 +21,8 @@ jobs:
       - run:
           name: Clone equal repository
           command: git clone https://github.com/equalframework/equal.git
+      - run: git config --global --add safe.directory /var/www/html
+      - run: git branch
       - run:
           name: Copy files to the working directory
           command: cp -r equal/* /var/www/html/
@@ -58,10 +60,9 @@ jobs:
           name: Install MariaDb Client
           command: apt-get -y install mariadb-client
       - run: mysql --version;
-      - run: php run.php --do=init_package --package=projectFlow
-      - run: echo "show tables;" > test.sql
+      #- run: php run.php --do=init_package --package=projectFlow
       - run: ls -lah
-      #- run: mysql ALTER TABLE `projectflow_employeeproject` ADD COLUMN `project_id` int(11) NOT NULL;
+
 # Orchestrate our job run sequence
 workflows:
   build_and_test:

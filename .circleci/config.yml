@@ -20,14 +20,10 @@ jobs:
             docker-php-ext-enable mysqli
       - run:
           name: Clone equal repository
-          command: git clone https://github.com/equalframework/equal.git ~/second-repo
+          command: git clone https://github.com/equalframework/equal.git 
       - run:
           name: List Branches for Second Repository
-          command: git -C ~/second-repo branch
-      - run: git config --global --add safe.directory /var/www/html
-      - run: git branch
-      - run: git fetch
-      - run: git branch
+          command: git ls-remote --heads https://github.com/equalframework/equal.git
       #- run: git checkout dev-2.0
       - run:
           name: Copy files to the working directory

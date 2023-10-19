@@ -1,6 +1,5 @@
 version: 2.1
 
-# Define the jobs we want to run for this project
 jobs:
   build:
     docker:
@@ -69,11 +68,9 @@ jobs:
           command: php run.php --get=model_collect --entity=projectFlow\\Employee
       - run:
           name: Install MariaDb Client
-          command: apt-get -y install mariadb-client
-      - run: mysql --version;
-      - run: ls -lah
-
-# Orchestrate our job run sequence
+          command: |
+            apt-get -y install mariadb-client
+            mysql --version;
 workflows:
   build_and_test:
     jobs:

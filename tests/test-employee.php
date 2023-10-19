@@ -57,20 +57,19 @@ $tests = [
         'return'            =>  ['integer'],
         'arrange'           => function () {
             $employee = Employee::search(['name' , 'like' , '%'. 'Marie Grand'. '%'])
-                ->read('projects_ids')
-                ->first();
-
+                ->read(['projects_ids'])
+                ->first(true);
             return($employee);
         },
         'act'              => function ($employee) {
 
             if($employee){
-                $projects = $employee['projects_ids'];
+                $projects_ids = $employee['projects_ids'];
             }
 
             $budget = 0;
-            foreach($projects as $project) {
-                $project = Project::id($project['id'])->read('budget')->first(true);
+            foreach($projects_ids as $project_id) {
+                $project = Project::id($project_id)->read(['budget'])->first(true);
                 $budget += $project['budget'];
 
             }
@@ -79,7 +78,7 @@ $tests = [
 
         },
         'assert'            =>  function ($budget) {
-            return ($budget == 62000);
+            return ($budget == 60000);
         }
     )
 

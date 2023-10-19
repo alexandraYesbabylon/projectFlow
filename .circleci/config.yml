@@ -24,6 +24,7 @@ jobs:
           name: List Branches
           command: git ls-remote --heads https://github.com/equalframework/equal.git
       - run: git config --global --add safe.directory /var/www/html
+      - run: ls -lah
       - run: cd equal
       - run: ls -lah
       - run: git branch

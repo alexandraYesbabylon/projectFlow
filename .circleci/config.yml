@@ -27,7 +27,6 @@ jobs:
       - run:
           name: Set permissions for 'run.php'
           command: chmod 755 run.php
-      - run: git branch
       - run: git config --global --add safe.directory /var/www/html
       - run: git branch
       - run: git fetch

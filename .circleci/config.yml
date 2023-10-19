@@ -11,7 +11,13 @@ jobs:
           MYSQL_DATABASE: equal
     working_directory: /var/www/html
     steps:
-      #- checkout
+      - checkout
+          path: ~/second-repo
+          git:
+            url: https://github.com/equalframework/equal.git
+      - run:
+          name: List Branches for Second Repository
+          command: git branch      
       - run:
           name: Install dependencies
           command: |

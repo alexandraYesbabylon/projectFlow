@@ -11,13 +11,13 @@ jobs:
           MYSQL_DATABASE: equal
     working_directory: /var/www/html
     steps:
+      - checkout
       - run:
           name: Install dependencies
           command: |
             apt-get update && apt-get -y install git libzip-dev
             docker-php-ext-install pdo pdo_mysql mysqli zip
             docker-php-ext-enable mysqli
-      - checkout
       - run:
           name: Clone equal repository
           command: git clone https://github.com/equalframework/equal.git ~/second-repo

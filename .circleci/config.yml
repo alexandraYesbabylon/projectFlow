@@ -11,33 +11,30 @@ jobs:
           MYSQL_DATABASE: equal
     working_directory: /var/www/html
     steps:
-      - checkout
-          path: ~/second-repo
-          git:
-            url: https://github.com/equalframework/equal.git
-      - run:
-          name: List Branches for Second Repository
-          command: git branch      
       - run:
           name: Install dependencies
           command: |
             apt-get update && apt-get -y install git libzip-dev
             docker-php-ext-install pdo pdo_mysql mysqli zip
             docker-php-ext-enable mysqli
+      - checkout
       - run:
           name: Clone equal repository
-          command: git clone https://github.com/equalframework/equal.git
+          command: git clone https://github.com/equalframework/equal.git ~/second-repo
+      - run:
+          name: List Branches for Second Repository
+          command: git -C ~/second-repo branch
+      - run: git config --global --add safe.directory /var/www/html
+      - run: git branch
+      - run: git fetch
+      - run: git branch
+      #- run: git checkout dev-2.0
       - run:
           name: Copy files to the working directory
           command: cp -r equal/* /var/www/html/
       - run:
           name: Set permissions for 'run.php'
           command: chmod 755 run.php
-      - run: git config --global --add safe.directory /var/www/html
-      - run: git branch
-      - run: git fetch
-      - run: git branch
-      #- run: git checkout dev-2.0
       - run:
           name: Verify the presence and correct Access Rights of mandatory directories
           command: php run.php --do=test_fs-consistency

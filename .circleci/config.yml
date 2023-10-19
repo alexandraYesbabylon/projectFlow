@@ -21,7 +21,7 @@ jobs:
           name: Clone equal repository
           command: git clone https://github.com/equalframework/equal.git
       - run:
-          name: List Branches
+          name: List Branches Remote
           command: git ls-remote --heads https://github.com/equalframework/equal.git
       #- run: git config --global --add safe.directory /var/www/html
       - run:
@@ -31,9 +31,11 @@ jobs:
             git checkout dev-2.0
             cd ..
             cp -r equal/* /var/www/html/
+      - run: ls -lah
       - run:
           name: Set permissions for 'run.php'
           command: chmod 755 run.php
+      - run: ls -lah
       - run:
           name: Verify the presence and correct Access Rights of mandatory directories
           command: php run.php --do=test_fs-consistency
@@ -44,7 +46,7 @@ jobs:
           name: Creating an Empty Database
           command: php run.php --do=init_db
       - run:
-          name: Initializing Core package with Demo Data
+          name: Initializing core package with Demo Data
           command: php run.php --do=init_package --package=core --import=true
       - run:
           name: Running Test Units for the Core Package
@@ -52,19 +54,22 @@ jobs:
       - run:
           name: Clone projectFlow repository
           command: git clone https://github.com/alexandraYesbabylon/projectFlow.git projectFlow
+      - run: ls -lah
       - run:
           name: Moving projectFlow  to packages
           command: mv projectFlow packages
-      - run: php run.php --do=init_package --package=projectFlow
+      - run: ls -lah
+      - checkout
+      - run: git branch
       - run:
-          name: Creating User
-          command: php run.php --do=model_create --entity=core\\User --fields[login]='project@example.com' --fields[password]='project1'
+          name: Initializing projectFlow package with Demo Data
+          command: php run.php --do=init_package --package=projectFlow
       - run:
-          name: Validating User
-          command: php run.php --do=model_update --entity='core\User' --ids=12 --fields='{validated:true}'
+          name: Running Test Units for the ProjectFlow Package
+          command: php run.php --do=test_package --package=projectFlow
       - run:
-          name: Adding User to Group
-          command: php run.php --do=group_add-user --group=users --user=12
+          name: List of existing employees
+          command: php run.php --get=model_collect --entity=projectFlow\\Employee
       - run:
           name: Install MariaDb Client
           command: apt-get -y install mariadb-client

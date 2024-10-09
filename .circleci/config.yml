@@ -36,6 +36,9 @@ jobs:
           command: chmod 755 run.php
       - run: ls -lah
       - run:
+          name: Assign folders permissions
+          command: php run.php --do=init_fs
+      - run:
           name: Verify the presence and correct Access Rights of mandatory directories
           command: php run.php --do=test_fs-consistency
       - run:

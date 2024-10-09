@@ -18,8 +18,7 @@ class Client extends Model {
             ],
             'phone' => [
                 'type'              => 'string',
-                'description'       => "Phone of the client.",
-                'usage'             => 'phone',
+                'description'       => "Phone of the client."
             ],
             'isactive' => [
                 'type'              => 'boolean',

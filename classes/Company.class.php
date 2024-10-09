@@ -22,8 +22,7 @@ class Company extends Model {
             ],
             'phone' => [
                 'type'              => 'string',
-                'description'       => "Phone of the company.",
-                'usage'             => 'phone',
+                'description'       => "Phone of the company."
             ],
              // Each company can have employees
             'employees_ids' => [

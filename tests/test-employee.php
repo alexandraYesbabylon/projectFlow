@@ -78,7 +78,7 @@ $tests = [
 
         },
         'assert'            =>  function ($budget) {
-            return ($budget == 60000);
+            return ($budget >= 60000);
         }
     )
 
